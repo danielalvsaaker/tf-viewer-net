@@ -11,6 +11,7 @@
         packages = with pkgs; [
           dotnet-sdk
           dotnet-runtime
+          libspatialite
         ];
       };
     };
