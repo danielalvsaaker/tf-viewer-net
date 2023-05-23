@@ -5,15 +5,11 @@ namespace Queries;
 
 public class Query
 {
-    [UseFirstOrDefault]
     [UseProjection]
-    public IQueryable<Activity?> Activity(
-        ApplicationDbContext context,
-        Guid userId,
-        string activityId)
+    public IQueryable<Activity?> Activities(
+        ApplicationDbContext context)
     {
         return context.Activities
-            .Where(activity => activity.UserId == userId)
-            .Where(activity => activity.ActivityId == activityId);
+            .AsQueryable();
     }
 }

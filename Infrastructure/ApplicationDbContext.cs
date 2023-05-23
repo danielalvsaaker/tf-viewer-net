@@ -87,7 +87,7 @@ public class ApplicationDbContext : DbContext
             {
                 lap.UserId,
                 lap.ActivityId,
-                lap.Timestamp
+                lap.StartTime
             });
     }
 }

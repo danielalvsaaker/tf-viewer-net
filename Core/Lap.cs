@@ -7,30 +7,30 @@ public class Lap
 {
     public string ActivityId { get; private set; } = null!;
     public Guid UserId { get; private set; }
-    public required DateTimeOffset Timestamp { get; init; }
+    public required DateTimeOffset StartTime { get; init; }
 
-    public Point? StartPosition { get; init; }
-    public Point? EndPosition { get; init; }
+    public required Point? StartPosition { get; init; }
+    public required Point? EndPosition { get; init; }
 
-    public Duration Duration { get; init; }
-    public Duration DurationActive { get; init; }
+    public required Duration Duration { get; init; }
+    public required Duration DurationActive { get; init; }
 
-    public Length? Distance { get; init; }
+    public required Length? Distance { get; init; }
 
-    public RotationalSpeed? CadenceAverage { get; init; }
-    public RotationalSpeed? CadenceMax { get; init; }
+    public required RotationalSpeed? CadenceAverage { get; init; }
+    public required RotationalSpeed? CadenceMax { get; init; }
 
-    public Frequency? HeartRateAverage { get; init; }
-    public Frequency? HeartRateMax { get; init; }
+    public required Frequency? HeartRateAverage { get; init; }
+    public required Frequency? HeartRateMax { get; init; }
 
-    public Speed? SpeedAverage { get; init; }
-    public Speed? SpeedMax { get; init; }
+    public required Speed? SpeedAverage { get; init; }
+    public required Speed? SpeedMax { get; init; }
 
-    public Power? PowerAverage { get; init; }
-    public Power? PowerMax { get; init; }
+    public required Power? PowerAverage { get; init; }
+    public required Power? PowerMax { get; init; }
 
-    public Length? Ascent { get; init; }
-    public Length? Descent { get; init; }
+    public required Length? Ascent { get; init; }
+    public required Length? Descent { get; init; }
 
-    public Energy? Calories { get; init; }
+    public required Energy? Calories { get; init; }
 }

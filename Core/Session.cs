@@ -7,29 +7,31 @@ public class Session
 {
     public string ActivityId { get; private set; } = null!;
     public Guid UserId { get; private set; }
+    
+    public required DateTimeOffset StartTime { get; init; }
 
-    public Point? NorthEastCorner { get; init; }
-    public Point? SouthWestCorner { get; init; }
+    public required Point? NorthEastCorner { get; set; }
+    public required Point? SouthWestCorner { get; set; }
 
-    public Duration Duration { get; init; }
-    public Duration DurationActive { get; init; }
+    public required Duration Duration { get; set; }
+    public required Duration DurationActive { get; set; }
 
-    public Length? Distance { get; set; }
+    public required Length? Distance { get; set; }
 
-    public RotationalSpeed? CadenceAverage { get; init; }
-    public RotationalSpeed? CadenceMax { get; init; }
+    public required RotationalSpeed? CadenceAverage { get; set; }
+    public required RotationalSpeed? CadenceMax { get; set; }
 
-    public Frequency? HeartRateAverage { get; init; }
-    public Frequency? HeartRateMax { get; init; }
+    public required Frequency? HeartRateAverage { get; set; }
+    public required Frequency? HeartRateMax { get; set; }
 
-    public Speed? SpeedAverage { get; init; }
-    public Speed? SpeedMax { get; init; }
+    public required Speed? SpeedAverage { get; init; }
+    public required Speed? SpeedMax { get; init; }
 
-    public Power PowerAverage { get; init; }
-    public Power PowerMax { get; init; }
+    public required Power? PowerAverage { get; init; }
+    public required Power? PowerMax { get; init; }
 
-    public Length? Ascent { get; init; }
-    public Length? Descent { get; init; }
+    public required Length? Ascent { get; init; }
+    public required Length? Descent { get; init; }
 
-    public Energy? Calories { get; init; }
+    public required Energy? Calories { get; init; }
 }
