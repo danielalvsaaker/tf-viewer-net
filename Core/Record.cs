@@ -10,12 +10,12 @@ public class Record
 
     public required DateTimeOffset Timestamp { get; init; }
 
-    public Point? Position { get; set; }
+    public required Point? Position { get; set; }
 
-    public RotationalSpeed? Cadence { get; init; }
-    public Length? Distance { get; init; }
-    public Length? Altitude { get; init; }
-    public Speed? Speed { get; init; }
-    public Frequency? HeartRate { get; init; }
-    public Power? Power { get; init; }
+    public required RotationalSpeed? Cadence { get; set; }
+    public required Length? Distance { get; set; }
+    public required Length? Altitude { get; set; }
+    public required Speed? Speed { get; set; }
+    public required Frequency? HeartRate { get; set; }
+    public required Power? Power { get; set; }
 }
