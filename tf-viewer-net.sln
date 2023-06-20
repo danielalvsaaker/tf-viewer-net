@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queries", "Queries\Queries.csproj", "{6AF2DC07-C8AE-482C-B119-38E20920DFF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser.Fit", "Parser.Fit\Parser.Fit.csproj", "{267F288B-3CDD-4AF2-8066-1632BE29F66F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{6AF2DC07-C8AE-482C-B119-38E20920DFF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AF2DC07-C8AE-482C-B119-38E20920DFF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AF2DC07-C8AE-482C-B119-38E20920DFF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{267F288B-3CDD-4AF2-8066-1632BE29F66F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{267F288B-3CDD-4AF2-8066-1632BE29F66F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{267F288B-3CDD-4AF2-8066-1632BE29F66F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{267F288B-3CDD-4AF2-8066-1632BE29F66F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

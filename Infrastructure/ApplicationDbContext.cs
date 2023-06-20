@@ -1,6 +1,7 @@
 using Infrastructure.Converters;
 using Microsoft.EntityFrameworkCore;
 using Core;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UnitsNet;
 
 namespace Infrastructure;
@@ -89,5 +90,24 @@ public class ApplicationDbContext : DbContext
                 lap.ActivityId,
                 lap.StartTime
             });
+
+        if (Database.IsSqlite())
+        {
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var properties = entityType
+                    .ClrType
+                    .GetProperties()
+                    .Where(p => p.PropertyType == typeof(DateTimeOffset) || p.PropertyType == typeof(DateTimeOffset?));
+
+                foreach (var property in properties)
+                {
+                    modelBuilder
+                        .Entity(entityType.Name)
+                        .Property(property.Name)
+                        .HasConversion(new DateTimeOffsetToBinaryConverter());
+                }
+            }
+        }
     }
 }

@@ -11,14 +11,14 @@ namespace Parser.Fit;
 
 static class NullableExtension
 {
-    public static TResult? Map<TSource, TResult>(this TSource? source, Func<TSource, TResult> selector) 
+    public static TResult? Map<TSource, TResult>(this TSource? source, Func<TSource, TResult> selector)
         where TSource : struct
         where TResult : struct
     {
         return source.HasValue ? selector(source.Value) : new TResult?();
     }
-    
-    public static TResult? Map<TSource1, TSource2, TResult>(this (TSource1? first, TSource2? second) source, Func<(TSource1, TSource2), TResult> selector) 
+
+    public static TResult? Map<TSource1, TSource2, TResult>(this (TSource1? first, TSource2? second) source, Func<(TSource1, TSource2), TResult> selector)
         where TSource1 : struct
         where TSource2 : struct
         where TResult : class
@@ -45,8 +45,6 @@ public class ActivityParser
         decoder.MesgEvent += broadcaster.OnMesg;
 
         var result = decoder.Read(input);
-        Console.WriteLine(decoder.IsFIT(input));
-        Console.WriteLine(result);
 
         return new Activity
         {
@@ -110,12 +108,12 @@ public class ActivityParser
                 .Map(power => Power.FromWatts(power)),
             PowerMax = sessionMesg.GetMaxPower()
                 .Map(power => Power.FromWatts(power)),
-            
+
             Ascent = sessionMesg.GetTotalAscent()
                 .Map(ascent => Length.FromMeters(ascent)),
             Descent = sessionMesg.GetTotalDescent()
                 .Map(descent => Length.FromMeters(descent)),
-            
+
             Calories = sessionMesg.GetTotalCalories()
                 .Map(calories => Energy.FromKilocalories(calories)),
         };
@@ -158,7 +156,7 @@ public class ActivityParser
         {
             return;
         }
-        
+
         _laps.Add(new Lap
         {
             StartTime = lapMesg.GetStartTime().GetDateTime(),

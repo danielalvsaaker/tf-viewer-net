@@ -17,6 +17,7 @@ public class Activity
     private readonly DateTimeOffset _timestamp;
 
     public required Session Session { get; init; }
+
     public required ICollection<Record> Records { get; init; } = new List<Record>();
     public required ICollection<Lap> Laps { get; init; } = new List<Lap>();
 }
