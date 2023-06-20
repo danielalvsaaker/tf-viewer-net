@@ -7,7 +7,7 @@ public class Session
 {
     public string ActivityId { get; private set; } = null!;
     public Guid UserId { get; private set; }
-    
+
     public required DateTimeOffset StartTime { get; init; }
 
     public required Point? NorthEastCorner { get; set; }
