@@ -44,38 +44,38 @@ public class ApplicationDbContext : DbContext
             .HaveConversion<EnergyConverter>();
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.Entity<Activity>()
+        builder.Entity<Activity>()
             .HasKey(activity => new
             {
                 activity.UserId,
                 activity.ActivityId
             });
 
-        modelBuilder.Entity<Activity>()
+        builder.Entity<Activity>()
             .HasOne(activity => activity.Session)
             .WithOne()
             .HasForeignKey<Session>(session => new { session.UserId, session.ActivityId });
 
-        modelBuilder.Entity<Activity>()
+        builder.Entity<Activity>()
             .HasMany(activity => activity.Records)
             .WithOne()
             .HasForeignKey(record => new { record.UserId, record.ActivityId });
 
-        modelBuilder.Entity<Activity>()
+        builder.Entity<Activity>()
             .HasMany(activity => activity.Laps)
             .WithOne()
             .HasForeignKey(lap => new { lap.UserId, lap.ActivityId });
 
-        modelBuilder.Entity<Session>()
+        builder.Entity<Session>()
             .HasKey(session => new
             {
                 session.UserId,
                 session.ActivityId
             });
 
-        modelBuilder.Entity<Record>()
+        builder.Entity<Record>()
             .HasKey(record => new
             {
                 record.UserId,
@@ -83,7 +83,7 @@ public class ApplicationDbContext : DbContext
                 record.Timestamp
             });
 
-        modelBuilder.Entity<Lap>()
+        builder.Entity<Lap>()
             .HasKey(lap => new
             {
                 lap.UserId,
@@ -93,7 +93,7 @@ public class ApplicationDbContext : DbContext
 
         if (Database.IsSqlite())
         {
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            foreach (var entityType in builder.Model.GetEntityTypes())
             {
                 var properties = entityType
                     .ClrType
@@ -102,12 +102,14 @@ public class ApplicationDbContext : DbContext
 
                 foreach (var property in properties)
                 {
-                    modelBuilder
+                    builder
                         .Entity(entityType.Name)
                         .Property(property.Name)
                         .HasConversion(new DateTimeOffsetToBinaryConverter());
                 }
             }
         }
+        
+        base.OnModelCreating(builder);
     }
 }
