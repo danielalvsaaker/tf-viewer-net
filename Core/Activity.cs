@@ -3,7 +3,7 @@ namespace Core;
 public class Activity
 {
     public string ActivityId { get; private set; } = null!;
-    public Guid UserId { get; set; }
+    public string UserId { get; set; }
 
     public required DateTimeOffset Timestamp
     {

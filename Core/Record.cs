@@ -6,7 +6,7 @@ namespace Core;
 public class Record
 {
     public string ActivityId { get; private set; } = null!;
-    public Guid UserId { get; private set; }
+    public string UserId { get; private set; }
 
     public required DateTimeOffset Timestamp { get; init; }
 
