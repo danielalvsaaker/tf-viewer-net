@@ -16,4 +16,8 @@
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="UnitsNet.NumberExtensions" Version="5.29.0" />
+    </ItemGroup>
+
 </Project>
