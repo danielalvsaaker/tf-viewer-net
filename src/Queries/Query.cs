@@ -28,6 +28,6 @@ public class Query
         return context
             .Users
             .AsNoTracking()
-            .Where(user => user.Id == userId);
+            .Where(user => user.UserId == userId);
     }
 }

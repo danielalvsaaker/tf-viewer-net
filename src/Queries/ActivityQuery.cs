@@ -85,6 +85,6 @@ public class ActivityQuery
         return context
             .Users
             .AsNoTracking()
-            .Where(user => user.Id == parent.UserId);
+            .Where(user => user.UserId == parent.UserId);
     }
 }
