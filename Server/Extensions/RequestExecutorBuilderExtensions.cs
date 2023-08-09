@@ -1,6 +1,5 @@
 using HotChocolate.Execution.Configuration;
-using Infrastructure;
-using Queries;
+using Queries.TypeInterceptors;
 using Queries.Types;
 using UnitsNet;
 using UnitsNet.Units;
@@ -12,33 +11,26 @@ public static class RequestExecutorBuilderExtensions
     public static IRequestExecutorBuilder AddUnitTypes(this IRequestExecutorBuilder services)
     {
         services
-
             .AddEnumType<SpeedUnit>()
-            .BindRuntimeType<Speed, FloatType>()
+            .BindRuntimeType<Speed, SpeedType>()
             .TryAddTypeInterceptor<SpeedTypeInterceptor>()
-
             .AddEnumType<LengthUnit>()
-            .BindRuntimeType<Length, FloatType>()
+            .BindRuntimeType<Length, LengthType>()
             .TryAddTypeInterceptor<LengthTypeInterceptor>()
-
             .AddEnumType<FrequencyUnit>()
-            .BindRuntimeType<Frequency, FloatType>()
+            .BindRuntimeType<Frequency, FrequencyType>()
             .TryAddTypeInterceptor<FrequencyTypeInterceptor>()
-
             .AddEnumType<EnergyUnit>()
-            .BindRuntimeType<Energy, FloatType>()
+            .BindRuntimeType<Energy, EnergyType>()
             .TryAddTypeInterceptor<EnergyTypeInterceptor>()
-
             .AddEnumType<RotationalSpeedUnit>()
-            .BindRuntimeType<RotationalSpeed, FloatType>()
+            .BindRuntimeType<RotationalSpeed, RotationalSpeedType>()
             .TryAddTypeInterceptor<RotationalSpeedTypeInterceptor>()
-
             .AddEnumType<DurationUnit>()
-            .BindRuntimeType<Duration, FloatType>()
+            .BindRuntimeType<Duration, DurationType>()
             .TryAddTypeInterceptor<DurationTypeInterceptor>()
-
             .AddEnumType<PowerUnit>()
-            .BindRuntimeType<Power, FloatType>()
+            .BindRuntimeType<Power, PowerType>()
             .TryAddTypeInterceptor<PowerTypeInterceptor>();
 
         return services;
