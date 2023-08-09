@@ -1,31 +1,17 @@
-using System.Runtime.InteropServices.ComTypes;
 using Core;
 using Dynastream.Fit;
-using Microsoft.VisualBasic;
-using NetTopologySuite.DataStructures;
 using NetTopologySuite.Geometries;
-using UnitsNet;
+using Parser.Fit.Extensions;
+using UnitsNet.NumberExtensions.NumberToDuration;
+using UnitsNet.NumberExtensions.NumberToSpeed;
+using UnitsNet.NumberExtensions.NumberToEnergy;
+using UnitsNet.NumberExtensions.NumberToLength;
+using UnitsNet.NumberExtensions.NumberToPower;
+using UnitsNet.NumberExtensions.NumberToFrequency;
+using UnitsNet.NumberExtensions.NumberToRotationalSpeed;
 using Activity = Core.Activity;
 
 namespace Parser.Fit;
-
-static class NullableExtension
-{
-    public static TResult? Map<TSource, TResult>(this TSource? source, Func<TSource, TResult> selector)
-        where TSource : struct
-        where TResult : struct
-    {
-        return source.HasValue ? selector(source.Value) : new TResult?();
-    }
-
-    public static TResult? Map<TSource1, TSource2, TResult>(this (TSource1? first, TSource2? second) source, Func<(TSource1, TSource2), TResult> selector)
-        where TSource1 : struct
-        where TSource2 : struct
-        where TResult : class
-    {
-        return source is { first: not null, second: not null } ? selector((source.first.Value, source.second.Value)) : null;
-    }
-}
 
 public class ActivityParser
 {
@@ -66,56 +52,38 @@ public class ActivityParser
         {
             StartTime = sessionMesg.GetStartTime().GetDateTime(),
 
-            NorthEastCorner = (sessionMesg.GetNecLong(), sessionMesg.GetNecLat())
-                .Map(corner =>
-                {
-                    var (lon, lat) = corner;
-                    return new Point(lon, lat);
-                }),
-            SouthWestCorner = (sessionMesg.GetSwcLong(), sessionMesg.GetSwcLat())
-                .Map(corner =>
-                {
-                    var (lon, lat) = corner;
-                    return new Point(lon, lat);
-                }),
+            NorthEastCorner = (sessionMesg.GetNecLong()?.SemicircleToDegree(), sessionMesg.GetNecLat()?.SemicircleToDegree()) switch
+            {
+                ({ } lon, { } lat) => new Point(lon, lat),
+                _ => null,
+            },
+            SouthWestCorner = (sessionMesg.GetSwcLong()?.SemicircleToDegree(), sessionMesg.GetSwcLat()?.SemicircleToDegree()) switch
+            {
+                ({ } lon, { } lat) => new Point(lon, lat),
+                _ => null
+            },
 
-            Duration = sessionMesg.GetTotalElapsedTime()
-                .Map(duration => Duration.FromSeconds(duration))!
-                .Value,
-            DurationActive = sessionMesg.GetTotalTimerTime()
-                .Map(duration => Duration.FromSeconds(duration))!
-                .Value,
+            Duration = sessionMesg.GetTotalElapsedTime()!.Value.Seconds(),
+            DurationActive = sessionMesg.GetTotalTimerTime()!.Value.Seconds(),
 
-            Distance = sessionMesg.GetTotalDistance()
-                .Map(distance => Length.FromMeters(distance)),
+            Distance = sessionMesg.GetTotalDistance()?.Meters(),
 
-            CadenceAverage = sessionMesg.GetAvgCadence()
-                .Map(cadence => RotationalSpeed.FromRevolutionsPerMinute(cadence)),
-            CadenceMax = sessionMesg.GetMaxCadence()
-                .Map(cadence => RotationalSpeed.FromRevolutionsPerMinute(cadence)),
+            CadenceAverage = sessionMesg.GetAvgCadence()?.RevolutionsPerMinute(),
+            CadenceMax = sessionMesg.GetMaxCadence()?.RevolutionsPerMinute(),
 
-            HeartRateAverage = sessionMesg.GetAvgHeartRate()
-                .Map(heartRate => Frequency.FromBeatsPerMinute(heartRate)),
-            HeartRateMax = sessionMesg.GetMaxHeartRate()
-                .Map(heartRate => Frequency.FromBeatsPerMinute(heartRate)),
+            HeartRateAverage = sessionMesg.GetAvgHeartRate()?.BeatsPerMinute(),
+            HeartRateMax = sessionMesg.GetMaxHeartRate()?.BeatsPerMinute(),
 
-            SpeedAverage = sessionMesg.GetEnhancedAvgSpeed()
-                .Map(speed => Speed.FromMetersPerSecond(speed)),
-            SpeedMax = sessionMesg.GetEnhancedMaxSpeed()
-                .Map(speed => Speed.FromMetersPerSecond(speed)),
+            SpeedAverage = sessionMesg.GetEnhancedAvgSpeed()?.MetersPerSecond(),
+            SpeedMax = sessionMesg.GetEnhancedMaxSpeed()?.MetersPerSecond(),
 
-            PowerAverage = sessionMesg.GetAvgPower()
-                .Map(power => Power.FromWatts(power)),
-            PowerMax = sessionMesg.GetMaxPower()
-                .Map(power => Power.FromWatts(power)),
+            PowerAverage = sessionMesg.GetAvgPower()?.Watts(),
+            PowerMax = sessionMesg.GetMaxPower()?.Watts(),
 
-            Ascent = sessionMesg.GetTotalAscent()
-                .Map(ascent => Length.FromMeters(ascent)),
-            Descent = sessionMesg.GetTotalDescent()
-                .Map(descent => Length.FromMeters(descent)),
+            Ascent = sessionMesg.GetTotalAscent()?.Meters(),
+            Descent = sessionMesg.GetTotalDescent()?.Meters(),
 
-            Calories = sessionMesg.GetTotalCalories()
-                .Map(calories => Energy.FromKilocalories(calories)),
+            Calories = sessionMesg.GetTotalCalories()?.Kilocalories(),
         };
     }
 
@@ -129,24 +97,17 @@ public class ActivityParser
         _records.Add(new Record
         {
             Timestamp = recordMesg.GetTimestamp().GetDateTime(),
-            Position = (recordMesg.GetPositionLong(), recordMesg.GetPositionLat())
-                .Map(position =>
-                {
-                    var (lon, lat) = position;
-                    return new Point(lon, lat);
-                }),
-            Cadence = recordMesg.GetCadence()
-                .Map(cadence => RotationalSpeed.FromRevolutionsPerMinute(cadence)),
-            Distance = recordMesg.GetDistance()
-                .Map(distance => Length.FromMeters(distance)),
-            Altitude = recordMesg.GetEnhancedAltitude()
-                .Map(altitude => Length.FromMeters(altitude)),
-            Speed = recordMesg.GetEnhancedSpeed()
-                .Map(speed => Speed.FromMetersPerSecond(speed)),
-            HeartRate = recordMesg.GetHeartRate()
-                .Map(heartRate => Frequency.FromBeatsPerMinute(heartRate)),
-            Power = recordMesg.GetPower()
-                .Map(power => Power.FromWatts(power)),
+            Position = (recordMesg.GetPositionLong()?.SemicircleToDegree(), recordMesg.GetPositionLat()?.SemicircleToDegree()) switch
+            {
+                ({ } lon, { } lat) => new Point(lon, lat),
+                _ => null,
+            },
+            Cadence = recordMesg.GetCadence()?.RevolutionsPerMinute(),
+            Distance = recordMesg.GetDistance()?.Meters(),
+            Altitude = recordMesg.GetEnhancedAltitude()?.Meters(),
+            Speed = recordMesg.GetEnhancedSpeed()?.MetersPerSecond(),
+            HeartRate = recordMesg.GetHeartRate()?.BeatsPerMinute(),
+            Power = recordMesg.GetPower()?.Watts(),
         });
     }
 
@@ -160,48 +121,30 @@ public class ActivityParser
         _laps.Add(new Lap
         {
             StartTime = lapMesg.GetStartTime().GetDateTime(),
-            StartPosition = (lapMesg.GetStartPositionLong(), lapMesg.GetStartPositionLat())
-                .Map(position =>
-                {
-                    var (lon, lat) = position;
-                    return new Point(lon, lat);
-                }),
-            EndPosition = (lapMesg.GetEndPositionLong(), lapMesg.GetEndPositionLat())
-                .Map(position =>
-                {
-                    var (lon, lat) = position;
-                    return new Point(lon, lat);
-                }),
-            Duration = lapMesg.GetTotalElapsedTime()
-                .Map(duration => Duration.FromSeconds(duration))!
-                .Value,
-            DurationActive = lapMesg.GetTotalTimerTime()
-                .Map(duration => Duration.FromSeconds(duration))!
-                .Value,
-            Distance = lapMesg.GetTotalDistance()
-                .Map(distance => Length.FromMeters(distance)),
-            CadenceAverage = lapMesg.GetAvgCadence()
-                .Map(cadence => RotationalSpeed.FromRevolutionsPerMinute(cadence)),
-            CadenceMax = lapMesg.GetMaxCadence()
-                .Map(cadence => RotationalSpeed.FromRevolutionsPerMinute(cadence)),
-            HeartRateAverage = lapMesg.GetAvgHeartRate()
-                .Map(heartRate => Frequency.FromBeatsPerMinute(heartRate)),
-            HeartRateMax = lapMesg.GetMaxHeartRate()
-                .Map(heartRate => Frequency.FromBeatsPerMinute(heartRate)),
-            SpeedAverage = lapMesg.GetEnhancedAvgSpeed()
-                .Map(speed => Speed.FromMetersPerSecond(speed)),
-            SpeedMax = lapMesg.GetEnhancedMaxSpeed()
-                .Map(speed => Speed.FromMetersPerSecond(speed)),
-            PowerAverage = lapMesg.GetAvgPower()
-                .Map(power => Power.FromWatts(power)),
-            PowerMax = lapMesg.GetMaxPower()
-                .Map(power => Power.FromWatts(power)),
-            Ascent = lapMesg.GetTotalAscent()
-                .Map(ascent => Length.FromMeters(ascent)),
-            Descent = lapMesg.GetTotalDescent()
-                .Map(descent => Length.FromMeters(descent)),
-            Calories = lapMesg.GetTotalCalories()
-                .Map(calories => Energy.FromKilocalories(calories))
+            StartPosition = (lapMesg.GetStartPositionLong()?.SemicircleToDegree(), lapMesg.GetStartPositionLat()?.SemicircleToDegree()) switch
+            {
+                ({ } lon, { } lat) => new Point(lon, lat),
+                _ => null,
+            },
+            EndPosition = (lapMesg.GetEndPositionLong()?.SemicircleToDegree(), lapMesg.GetEndPositionLat()?.SemicircleToDegree()) switch
+            {
+                ({ } lon, { } lat) => new Point(lon, lat),
+                _ => null,
+            },
+            Duration = lapMesg.GetTotalElapsedTime()!.Value.Seconds(),
+            DurationActive = lapMesg.GetTotalTimerTime()!.Value.Seconds(),
+            Distance = lapMesg.GetTotalDistance()?.Meters(),
+            CadenceAverage = lapMesg.GetAvgCadence()?.RevolutionsPerMinute(),
+            CadenceMax = lapMesg.GetMaxCadence()?.RevolutionsPerMinute(),
+            HeartRateAverage = lapMesg.GetAvgHeartRate()?.BeatsPerMinute(),
+            HeartRateMax = lapMesg.GetMaxHeartRate()?.BeatsPerMinute(),
+            SpeedAverage = lapMesg.GetEnhancedAvgSpeed()?.MetersPerSecond(),
+            SpeedMax = lapMesg.GetEnhancedMaxSpeed()?.MetersPerSecond(),
+            PowerAverage = lapMesg.GetAvgPower()?.Watts(),
+            PowerMax = lapMesg.GetMaxPower()?.Watts(),
+            Ascent = lapMesg.GetTotalAscent()?.Meters(),
+            Descent = lapMesg.GetTotalDescent()?.Meters(),
+            Calories = lapMesg.GetTotalCalories()?.Kilocalories(),
         });
     }
 }
