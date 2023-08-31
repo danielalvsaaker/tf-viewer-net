@@ -11,8 +11,10 @@
         packages = with pkgs; [
           dotnet-sdk
           dotnet-runtime
-          libspatialite
+          omnisharp-roslyn
         ];
+
+        LD_LIBRARY_PATH = nixpkgs.lib.makeLibraryPath [ pkgs.libspatialite pkgs.sqlite ];
       };
     };
   };

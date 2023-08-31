@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-      <ProjectReference Include="..\Core\Core.csproj" />
+        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+        <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="HotChocolate.Data" Version="13.4.0-preview.23" />
+        <PackageReference Include="HotChocolate.Data" Version="13.5.1" />
     </ItemGroup>
 
 </Project>

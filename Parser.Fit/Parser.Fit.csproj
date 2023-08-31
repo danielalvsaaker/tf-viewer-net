@@ -7,17 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="Dynastream.Fit.Portable">
-        <HintPath>Dependencies\Dynastream.Fit.Portable.dll</HintPath>
-      </Reference>
+        <Reference Include="Dynastream.Fit.Portable">
+            <HintPath>Dependencies\Dynastream.Fit.Portable.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Core\Core.csproj" />
+        <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="UnitsNet.NumberExtensions" Version="5.29.0" />
+      <PackageReference Include="UnitsNet.NumberExtensions" Version="5.31.0" />
     </ItemGroup>
 
 </Project>
