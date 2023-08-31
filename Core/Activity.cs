@@ -2,9 +2,11 @@ namespace Core;
 
 public class Activity
 {
+    [IsProjected(true)]
     public string ActivityId { get; private set; } = null!;
+    [IsProjected(true)]
     public string UserId { get; set; }
-
+    [IsProjected(true)]
     public required DateTimeOffset Timestamp
     {
         get => _timestamp;

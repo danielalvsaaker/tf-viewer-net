@@ -1,3 +1,4 @@
+using HotChocolate;
 using NetTopologySuite.Geometries;
 using UnitsNet;
 
@@ -5,7 +6,9 @@ namespace Core;
 
 public class Record
 {
+    [GraphQLIgnore]
     public string ActivityId { get; private set; } = null!;
+    [GraphQLIgnore]
     public string UserId { get; private set; }
 
     public required DateTimeOffset Timestamp { get; init; }

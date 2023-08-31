@@ -25,14 +25,16 @@ builder.Services
 builder.Services
     .AddGraphQLServer()
     .RegisterDbContext<ApplicationDbContext>()
-    .AddProjections()
     .AddSpatialTypes()
+    .AddProjections()
+    .AddFiltering()
+    .AddSorting()
+    .AddSpatialFiltering()
     .AddSpatialProjections()
     .AddUnitTypes()
-
     .AddQueryType<Query>()
     .AddTypeExtension<ActivityQuery>()
-
+    .AddTypeExtension<UserQuery>()
     .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
     .TrimTypes()
     .InitializeOnStartup();
