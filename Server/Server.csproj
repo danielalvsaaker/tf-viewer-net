@@ -13,20 +13,21 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="HotChocolate.AspNetCore" Version="13.4.0-preview.23" />
-      <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.4.0-preview.23" />
-      <PackageReference Include="HotChocolate.Data.Spatial" Version="13.4.0-preview.23" />
-      <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.4.0-preview.23" />
-      <PackageReference Include="IdentityModel" Version="6.1.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.9" />
-    <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="3.0.0" />
-   </ItemGroup>
+        <PackageReference Include="HotChocolate.AspNetCore" Version="13.5.1" />
+        <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.5.1" />
+        <PackageReference Include="HotChocolate.Data.Spatial" Version="13.5.1" />
+        <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.5.1" />
+        <PackageReference Include="IdentityModel" Version="6.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" Version="2.1.6" />
+        <!--PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9" /-->
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.10" />
+        <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="3.0.0" />
+    </ItemGroup>
 
 </Project>
