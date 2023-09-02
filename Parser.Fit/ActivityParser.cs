@@ -52,16 +52,19 @@ public class ActivityParser
         {
             StartTime = sessionMesg.GetStartTime().GetDateTime(),
 
-            NorthEastCorner = (sessionMesg.GetNecLong()?.SemicircleToDegree(), sessionMesg.GetNecLat()?.SemicircleToDegree()) switch
-            {
-                ({ } lon, { } lat) => new Point(lon, lat),
-                _ => null,
-            },
-            SouthWestCorner = (sessionMesg.GetSwcLong()?.SemicircleToDegree(), sessionMesg.GetSwcLat()?.SemicircleToDegree()) switch
-            {
-                ({ } lon, { } lat) => new Point(lon, lat),
-                _ => null
-            },
+            BoundingBox = (
+                    sessionMesg.GetSwcLong(),
+                    sessionMesg.GetSwcLat(),
+                    sessionMesg.GetNecLong(),
+                    sessionMesg.GetNecLat()) switch
+                {
+                    ({ } swcLon, { } swcLat, { } necLon, { } necLat) => new MultiPoint(new[]
+                    {
+                        new Point(swcLon.SemicircleToDegree(), swcLat.SemicircleToDegree()),
+                        new Point(necLon.SemicircleToDegree(), necLat.SemicircleToDegree())
+                    }),
+                    _ => new MultiPoint(null)
+                },
 
             Duration = sessionMesg.GetTotalElapsedTime()!.Value.Seconds(),
             DurationActive = sessionMesg.GetTotalTimerTime()!.Value.Seconds(),

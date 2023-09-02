@@ -13,8 +13,7 @@ public class Session
 
     public required DateTimeOffset StartTime { get; init; }
 
-    public required Point? NorthEastCorner { get; set; }
-    public required Point? SouthWestCorner { get; set; }
+    public required MultiPoint BoundingBox { get; init; }
 
     public required Duration Duration { get; set; }
     public required Duration DurationActive { get; set; }
