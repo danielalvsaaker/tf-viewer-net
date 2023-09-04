@@ -2,6 +2,7 @@ using Core;
 using HotChocolate;
 using HotChocolate.Types;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Queries;
 
@@ -16,6 +17,7 @@ public class UserQuery
     {
         return context
             .Activities
+            .AsNoTracking()
             .Where(activity => activity.UserId == parent.Id)
             .OrderByDescending(activity => activity.Timestamp);
     }
@@ -29,6 +31,7 @@ public class UserQuery
     {
         return context
             .Activities
+            .AsNoTracking()
             .Where(activity => activity.UserId == parent.Id)
             .Where(activity => activity.ActivityId == activityId);
     }
