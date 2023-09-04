@@ -7,7 +7,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NetTopologySuite.IO.Converters;
+using Mutations;
 using Parser.Fit;
 using Queries;
 using Server.Extensions;
@@ -35,6 +35,8 @@ builder.Services
     .AddQueryType<Query>()
     .AddTypeExtension<ActivityQuery>()
     .AddTypeExtension<UserQuery>()
+    .AddMutationType<Mutation>()
+    .AddMutationConventions()
     .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
     .TrimTypes()
     .InitializeOnStartup();

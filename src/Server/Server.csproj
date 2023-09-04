@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\Mutations\Mutations.csproj" />
       <ProjectReference Include="..\Parser.Fit\Parser.Fit.csproj" />
       <ProjectReference Include="..\Queries\Queries.csproj" />
     </ItemGroup>
