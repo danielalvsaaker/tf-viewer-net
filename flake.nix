@@ -12,7 +12,7 @@
       version = "0.1";
       meta.mainProgram = "Server";
 
-      src = ./.;
+      src = ./src;
       nugetDeps = ./deps.nix;
       projectFile = "tf-viewer-net.sln";
       dotnet-sdk = pkgs.dotnet-sdk_7;
