@@ -6,6 +6,7 @@ using IdentityModel.Client;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore;
 using Mutations;
 using Parser.Fit;
@@ -44,6 +45,10 @@ builder.Services
     .InitializeOnStartup();
 
 builder.Services
+    .AddHttpClient()
+    .AddMemoryCache();
+
+builder.Services
     .AddScoped<ActivityParser>();
 
 builder.Services.AddHostedService<MigrationService>();
@@ -55,35 +60,67 @@ builder.Services
     {
         options.Events = new JwtBearerEvents
         {
-            OnTokenValidated = async (ctx) =>
+            OnTokenValidated = async validationContext =>
             {
-                var context = ctx.HttpContext.RequestServices.GetRequiredService<ApplicationDbContext>();
-                var token = ctx.SecurityToken as JwtSecurityToken;
+                var context = validationContext
+                    .HttpContext
+                    .RequestServices
+                    .GetRequiredService<ApplicationDbContext>();
 
-                if (context.Users.Any(user => user.Id == token.Subject))
+                var token = validationContext.SecurityToken as JwtSecurityToken;
+
+                var cache = validationContext
+                    .HttpContext
+                    .RequestServices
+                    .GetRequiredService<IMemoryCache>();
+
+                var exists = cache.Get(token.Subject);
+
+                if (exists is not null)
                 {
                     return;
                 }
 
-                var client = new HttpClient();
+                var client = validationContext
+                    .HttpContext
+                    .RequestServices
+                    .GetRequiredService<IHttpClientFactory>()
+                    .CreateClient();
 
-                var discovery = await client.GetDiscoveryDocumentAsync(ctx.Options.MetadataAddress);
+                var openIdConnectConfiguration = await validationContext
+                    .Options
+                    .ConfigurationManager!
+                    .GetConfigurationAsync(validationContext.HttpContext.RequestAborted);
+
                 var userInfo = await client.GetUserInfoAsync(new UserInfoRequest
                 {
-                    Address = discovery.UserInfoEndpoint,
+                    Address = openIdConnectConfiguration.UserInfoEndpoint,
                     Token = token.RawData,
                 });
 
-                var user = new User
+                if (await context.Users.SingleOrDefaultAsync(user => user.Id == token.Subject) is {} user)
                 {
-                    Id = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Subject).Value,
-                    Name = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Name).Value,
-                    Username = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.PreferredUserName).Value,
-                    Picture = new Uri(userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Picture).Value),
-                };
+                    // Update existing user
+                }
+                else
+                {
+                    user = new User
+                    {
+                        Id = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Subject).Value,
+                        Name = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Name).Value,
+                        Username = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.PreferredUserName).Value,
+                        Picture = new Uri(userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Picture).Value),
+                    };
 
-                context.Users.Add(user);
+                    context.Users.Add(user);
+                }
+
                 await context.SaveChangesAsync();
+
+                cache.Set(token.Subject, user, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                });
             },
         };
 
