@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Mutations;
 using Parser.Fit;
 using Queries;
+using Server.Configuration;
 using Server.Extensions;
 using Server.Services;
 
@@ -60,68 +61,7 @@ builder.Services
     {
         options.Events = new JwtBearerEvents
         {
-            OnTokenValidated = async validationContext =>
-            {
-                var context = validationContext
-                    .HttpContext
-                    .RequestServices
-                    .GetRequiredService<ApplicationDbContext>();
-
-                var token = validationContext.SecurityToken as JwtSecurityToken;
-
-                var cache = validationContext
-                    .HttpContext
-                    .RequestServices
-                    .GetRequiredService<IMemoryCache>();
-
-                var exists = cache.Get(token.Subject);
-
-                if (exists is not null)
-                {
-                    return;
-                }
-
-                var client = validationContext
-                    .HttpContext
-                    .RequestServices
-                    .GetRequiredService<IHttpClientFactory>()
-                    .CreateClient();
-
-                var openIdConnectConfiguration = await validationContext
-                    .Options
-                    .ConfigurationManager!
-                    .GetConfigurationAsync(validationContext.HttpContext.RequestAborted);
-
-                var userInfo = await client.GetUserInfoAsync(new UserInfoRequest
-                {
-                    Address = openIdConnectConfiguration.UserInfoEndpoint,
-                    Token = token.RawData,
-                });
-
-                if (await context.Users.SingleOrDefaultAsync(user => user.Id == token.Subject) is {} user)
-                {
-                    // Update existing user
-                }
-                else
-                {
-                    user = new User
-                    {
-                        Id = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Subject).Value,
-                        Name = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Name).Value,
-                        Username = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.PreferredUserName).Value,
-                        Picture = new Uri(userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Picture).Value),
-                    };
-
-                    context.Users.Add(user);
-                }
-
-                await context.SaveChangesAsync();
-
-                cache.Set(token.Subject, user, new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
-                });
-            },
+            OnTokenValidated = CustomJwtBearerEvents.OnTokenValidated
         };
 
         builder
