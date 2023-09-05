@@ -6,10 +6,12 @@ using IdentityModel.Client;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore;
 using Mutations;
 using Parser.Fit;
 using Queries;
+using Server.Configuration;
 using Server.Extensions;
 using Server.Services;
 
@@ -44,6 +46,10 @@ builder.Services
     .InitializeOnStartup();
 
 builder.Services
+    .AddHttpClient()
+    .AddMemoryCache();
+
+builder.Services
     .AddScoped<ActivityParser>();
 
 builder.Services.AddHostedService<MigrationService>();
@@ -55,36 +61,7 @@ builder.Services
     {
         options.Events = new JwtBearerEvents
         {
-            OnTokenValidated = async (ctx) =>
-            {
-                var context = ctx.HttpContext.RequestServices.GetRequiredService<ApplicationDbContext>();
-                var token = ctx.SecurityToken as JwtSecurityToken;
-
-                if (context.Users.Any(user => user.Id == token.Subject))
-                {
-                    return;
-                }
-
-                var client = new HttpClient();
-
-                var discovery = await client.GetDiscoveryDocumentAsync(ctx.Options.MetadataAddress);
-                var userInfo = await client.GetUserInfoAsync(new UserInfoRequest
-                {
-                    Address = discovery.UserInfoEndpoint,
-                    Token = token.RawData,
-                });
-
-                var user = new User
-                {
-                    Id = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Subject).Value,
-                    Name = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Name).Value,
-                    Username = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.PreferredUserName).Value,
-                    Picture = new Uri(userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Picture).Value),
-                };
-
-                context.Users.Add(user);
-                await context.SaveChangesAsync();
-            },
+            OnTokenValidated = CustomJwtBearerEvents.OnTokenValidated
         };
 
         builder
