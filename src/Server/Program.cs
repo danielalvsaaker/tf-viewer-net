@@ -11,6 +11,8 @@ using Mutations;
 using Parser.Fit;
 using Queries;
 using Server.Extensions;
+using Server.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +45,8 @@ builder.Services
 
 builder.Services
     .AddScoped<ActivityParser>();
+
+builder.Services.AddHostedService<MigrationService>();
 
 builder.Services
     .AddAuthorization()
