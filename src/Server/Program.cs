@@ -14,13 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDbContext<ApplicationDbContext>(options =>
     {
-        if (builder.Configuration.GetConnectionString("Postgres") is {} connectionString)
+        if (builder.Configuration.GetConnectionString(Infrastructure.Postgres.Provider.Name) is {} connectionString)
         {
             options.UseNpgsql(
                 connectionString,
                 options => options
                     .UseNetTopologySuite()
-                    .MigrationsAssembly("Infrastructure.Postgres"));
+                    .MigrationsAssembly(Infrastructure.Postgres.Provider.Assembly));
         }
         else
         {
@@ -28,7 +28,7 @@ builder.Services
                 "Data Source=tf.db",
                 options => options
                     .UseNetTopologySuite()
-                    .MigrationsAssembly("Infrastructure.Sqlite"));
+                    .MigrationsAssembly(Infrastructure.Sqlite.Provider.Assembly));
         }
     });
 
