@@ -54,10 +54,13 @@ public static class CustomJwtBearerEvents
         {
             user = new User
             {
-                Id = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Subject).Value,
-                Name = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Name).Value,
-                Username = userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.PreferredUserName).Value,
-                Picture = new Uri(userInfo.Claims.Single(claim => claim.Type == JwtClaimTypes.Picture).Value)
+                Id = userInfo.Claims.Single(claim => claim.Type is JwtClaimTypes.Subject).Value,
+                Name = userInfo.Claims.Single(claim => claim.Type is JwtClaimTypes.Name).Value,
+                Username = userInfo.Claims.Single(claim => claim.Type is JwtClaimTypes.PreferredUserName).Value,
+                Picture = userInfo.Claims
+                    .Where(claim => claim.Type is JwtClaimTypes.Picture)
+                    .Select(claim => new Uri(claim.Value))
+                    .SingleOrDefault()
             };
 
             context.Users.Add(user);
