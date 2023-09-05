@@ -1,12 +1,5 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Text.Json.Serialization;
-using Core;
-using IdentityModel;
-using IdentityModel.Client;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore;
 using Mutations;
 using Parser.Fit;
@@ -21,9 +14,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDbContext<ApplicationDbContext>(options =>
     {
-        options.UseSqlite(
-            "Data Source=tf.db",
-            x => x.UseNetTopologySuite());
+        if (builder.Configuration.GetConnectionString("Postgres") is {} connectionString)
+        {
+            options.UseNpgsql(
+                connectionString,
+                options => options
+                    .UseNetTopologySuite()
+                    .MigrationsAssembly("Infrastructure.Postgres"));
+        }
+        else
+        {
+            options.UseSqlite(
+                "Data Source=tf.db",
+                options => options
+                    .UseNetTopologySuite()
+                    .MigrationsAssembly("Infrastructure.Sqlite"));
+        }
     });
 
 builder.Services
