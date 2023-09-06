@@ -8,6 +8,7 @@
   (fetchNuGet { pname = "HotChocolate"; version = "13.5.1"; sha256 = "1wn4cl6yy8j7f970da4p416mx8yapcr4anw81mlgsgaabyb8157q"; })
   (fetchNuGet { pname = "HotChocolate.Abstractions"; version = "13.5.1"; sha256 = "17lydyl7lhs7wwfjjakwig802l0whja6h9zw188ddvnj6jrniz2k"; })
   (fetchNuGet { pname = "HotChocolate.AspNetCore"; version = "13.5.1"; sha256 = "05qs6f3m3wivxm535vjgq5kx25qd9yl8z1c9hngk4ff6ggpbcn9f"; })
+  (fetchNuGet { pname = "HotChocolate.AspNetCore.Authorization"; version = "13.5.1"; sha256 = "1kp9hyjzagasqfjibx8fl8cc3hk9727y8kkyns0lqxdf5w8sd0iv"; })
   (fetchNuGet { pname = "HotChocolate.Authorization"; version = "13.5.1"; sha256 = "02mhls66wsrn0swfx7zcmzd9z7wyflddm33wy5fi5zxxa7izhj5j"; })
   (fetchNuGet { pname = "HotChocolate.Data"; version = "13.5.1"; sha256 = "0mqyjbpky84zw9ig8v7c0y5gszj8d3kg9lr30f04y7k0wzxc2al6"; })
   (fetchNuGet { pname = "HotChocolate.Data.EntityFramework"; version = "13.5.1"; sha256 = "0380ipc32yk14cw3qmligdidaanr2qhx162kkyn60iw9fc44x108"; })
