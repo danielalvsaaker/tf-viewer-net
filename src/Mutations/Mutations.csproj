@@ -9,10 +9,13 @@
     <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\Parser.Fit\Parser.Fit.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="HotChocolate.Authorization" Version="13.5.1" />
       <PackageReference Include="HotChocolate.Types.Mutations" Version="13.5.1" />
+      <PackageReference Include="HotChocolate.Types.Scalars.Upload" Version="13.5.1" />
     </ItemGroup>
 
 </Project>
