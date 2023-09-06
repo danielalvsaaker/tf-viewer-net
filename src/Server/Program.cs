@@ -34,6 +34,7 @@ builder.Services
 
 builder.Services
     .AddGraphQLServer()
+    .AddAuthorization()
     .RegisterDbContext<ApplicationDbContext>()
     .AddSpatialTypes()
     .AddProjections()
@@ -43,10 +44,12 @@ builder.Services
     .AddSpatialProjections()
     .AddUnitTypes()
     .AddQueryType<Query>()
+    .AddType<UploadType>()
     .AddTypeExtension<ActivityQuery>()
     .AddTypeExtension<UserQuery>()
     .AddMutationType<Mutation>()
     .AddMutationConventions()
+    .RegisterService<ActivityParser>()
     .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
     .TrimTypes()
     .InitializeOnStartup();
