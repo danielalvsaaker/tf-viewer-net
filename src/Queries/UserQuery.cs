@@ -35,4 +35,30 @@ public class UserQuery
             .Where(activity => activity.UserId == parent.Id)
             .Where(activity => activity.ActivityId == activityId);
     }
+
+    [UsePaging]
+    [UseProjection]
+    public IQueryable<User> Following(
+        [Parent] User parent,
+        ApplicationDbContext context)
+    {
+        return context
+            .Users
+            .AsNoTracking()
+            .Where(user => user.Id == parent.Id)
+            .SelectMany(user => user.Following);
+    }
+
+    [UsePaging]
+    [UseProjection]
+    public IQueryable<User> Followers(
+        [Parent] User parent,
+        ApplicationDbContext context)
+    {
+        return context
+            .Users
+            .AsNoTracking()
+            .Where(user => user.Id == parent.Id)
+            .SelectMany(user => user.Followers);
+    }
 }
