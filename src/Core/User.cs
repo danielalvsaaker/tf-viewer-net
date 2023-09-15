@@ -12,4 +12,9 @@ public class User
 
     [GraphQLIgnore]
     public IEnumerable<Activity> Activities { get; set; } = new List<Activity>();
+
+    [GraphQLIgnore]
+    public ICollection<User> Followers { get; set; } = new List<User>();
+    [GraphQLIgnore]
+    public ICollection<User> Following { get; set; } = new List<User>();
 }
