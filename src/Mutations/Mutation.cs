@@ -68,6 +68,7 @@ public class Mutation
         var owner = await context
             .Users
             .Where(user => user.Id == ownerId)
+            .Include(user => user.Following)
             .FirstAsync();
 
         var target = await context
@@ -101,6 +102,7 @@ public class Mutation
         var owner = await context
             .Users
             .Where(user => user.Id == ownerId)
+            .Include(user => user.Following)
             .FirstAsync();
 
         var target = await context
