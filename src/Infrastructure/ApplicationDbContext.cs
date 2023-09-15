@@ -91,6 +91,11 @@ public class ApplicationDbContext : DbContext
                 lap.StartTime
             });
 
+        builder.Entity<User>()
+            .HasMany(user => user.Followers)
+            .WithMany(user => user.Following)
+            .UsingEntity(join => join.ToTable("Followers"));
+
         if (Database.IsSqlite())
         {
             foreach (var entityType in builder.Model.GetEntityTypes())
