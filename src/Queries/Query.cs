@@ -1,10 +1,12 @@
 using Infrastructure;
 using Core;
+using HotChocolate.Authorization;
 using HotChocolate.Types;
 using Microsoft.EntityFrameworkCore;
 
 namespace Queries;
 
+[Authorize]
 public class Query
 {
     [UsePaging(IncludeTotalCount = true)]

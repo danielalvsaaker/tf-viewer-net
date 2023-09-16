@@ -2,6 +2,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Mutations;
+using Mutations.ErrorFilters;
 using Parser.Fit;
 using Queries;
 using Server.Configuration;
@@ -48,10 +49,13 @@ builder.Services
     .AddTypeExtension<ActivityQuery>()
     .AddTypeExtension<UserQuery>()
     .AddMutationType<Mutation>()
+    .AddTypeExtension<UserMutation>()
+    .AddTypeExtension<ActivityMutation>()
     .AddMutationConventions()
     .RegisterService<ActivityParser>()
     .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
     .TrimTypes()
+    .AddErrorFilter<UnauthorizedErrorFilter>()
     .InitializeOnStartup();
 
 builder.Services
