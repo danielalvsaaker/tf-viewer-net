@@ -6,6 +6,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Server.Configuration;
 
@@ -18,7 +19,7 @@ public static class CustomJwtBearerEvents
             .RequestServices
             .GetRequiredService<ApplicationDbContext>();
 
-        var token = (validationContext.SecurityToken as JwtSecurityToken)!;
+        var token = (validationContext.SecurityToken as JsonWebToken)!;
 
         var cache = validationContext
             .HttpContext
@@ -43,7 +44,7 @@ public static class CustomJwtBearerEvents
         var userInfo = await client.GetUserInfoAsync(new UserInfoRequest
         {
             Address = openIdConnectConfiguration.UserInfoEndpoint,
-            Token = token.RawData
+            Token = token.EncodedToken
         });
 
         if (await context.Users.SingleOrDefaultAsync(user => user.Id == token.Subject) is { } user)
