@@ -1,3 +1,5 @@
+using HotChocolate;
+
 namespace Core;
 
 public class Activity
@@ -20,6 +22,8 @@ public class Activity
 
     public required Session Session { get; init; }
 
+    [GraphQLIgnore]
     public required ICollection<Record> Records { get; init; } = new List<Record>();
+    [GraphQLIgnore]
     public required ICollection<Lap> Laps { get; init; } = new List<Lap>();
 }

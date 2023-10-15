@@ -61,4 +61,25 @@ public class UserQuery
             .Where(user => user.Id == parent.Id)
             .SelectMany(user => user.Followers);
     }
+
+    [UsePaging]
+    [UseProjection]
+    public IQueryable<Activity> Feed(
+        [Parent] User parent,
+        ApplicationDbContext context)
+    {
+        var user = context
+            .Users
+            .Where(user => user.Id == parent.Id);
+        
+        var activities = user
+            .SelectMany(user => user.Activities);
+        var followersActivities = user
+            .SelectMany(user => user.Following.SelectMany(following => following.Activities));
+        
+        return activities
+            .Concat(followersActivities)
+            .OrderByDescending(activity => activity.Timestamp);
+
+    }
 }
