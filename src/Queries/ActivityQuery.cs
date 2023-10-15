@@ -36,4 +36,30 @@ public class ActivityQuery
             .Where(activity => activity.Timestamp > parent.Timestamp)
             .OrderBy(activity => activity.Timestamp);
     }
+
+    [UseProjection]
+    public IQueryable<Record> Records(
+        [Parent] Activity parent,
+        ApplicationDbContext context)
+    {
+        return context
+            .Activities
+            .AsNoTracking()
+            .Where(activity => activity.UserId == parent.UserId)
+            .Where(activity => activity.ActivityId == parent.ActivityId)
+            .SelectMany(activity => activity.Records);
+    }
+
+    [UseProjection]
+    public IQueryable<Lap> Laps(
+        [Parent] Activity parent,
+        ApplicationDbContext context)
+    {
+        return context
+            .Activities
+            .AsNoTracking()
+            .Where(activity => activity.UserId == parent.UserId)
+            .Where(activity => activity.ActivityId == parent.ActivityId)
+            .SelectMany(activity => activity.Laps);
+    }
 }
