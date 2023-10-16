@@ -24,12 +24,12 @@
         <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.5.1" />
         <PackageReference Include="IdentityModel" Version="6.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0-rc.2.23480.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-rc.2.23480.1">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" Version="2.1.6" />
-        <!--PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9" /-->
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0-rc.2.23480.1" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
+        <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" Version="2.1.6" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
     </ItemGroup>
 
 </Project>
