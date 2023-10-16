@@ -70,15 +70,16 @@ public class UserQuery
     {
         var user = context
             .Users
+            .AsNoTracking()
             .Where(user => user.Id == parent.Id);
         
         var activities = user
             .SelectMany(user => user.Activities);
-        var followersActivities = user
+        var followingActivities = user
             .SelectMany(user => user.Following.SelectMany(following => following.Activities));
-        
+
         return activities
-            .Concat(followersActivities)
+            .Concat(followingActivities)
             .OrderByDescending(activity => activity.Timestamp);
 
     }
