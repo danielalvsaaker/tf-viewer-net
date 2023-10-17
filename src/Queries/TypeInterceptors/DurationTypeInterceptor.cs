@@ -1,4 +1,3 @@
-using Queries.Types;
 using UnitsNet;
 using UnitsNet.Units;
 
