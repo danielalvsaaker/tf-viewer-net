@@ -3,11 +3,6 @@ using UnitsNet;
 
 namespace Infrastructure.Converters;
 
-internal class LengthConverter : ValueConverter<Length, decimal>
-{
-    public LengthConverter() : base(
-        value => Convert.ToDecimal(value.Meters),
-        value => Length.FromMeters(value)
-    )
-    { }
-}
+internal class LengthConverter() : ValueConverter<Length, decimal>(
+    value => Convert.ToDecimal(value.Meters),
+    value => Length.FromMeters(value));

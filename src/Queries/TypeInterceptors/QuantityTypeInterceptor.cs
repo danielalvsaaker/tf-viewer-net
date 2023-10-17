@@ -6,17 +6,10 @@ using UnitsNet;
 
 namespace Queries.TypeInterceptors;
 
-public abstract class QuantityTypeInterceptor<TQuantity, TUnit> : TypeInterceptor
+public abstract class QuantityTypeInterceptor<TQuantity, TUnit>(TUnit defaultUnit) : TypeInterceptor
     where TQuantity : struct, IQuantity<TUnit>
     where TUnit : struct, Enum
 {
-    private readonly TUnit _defaultUnit;
-
-    protected QuantityTypeInterceptor(TUnit defaultUnit)
-    {
-        _defaultUnit = defaultUnit;
-    }
-
     public override void OnBeforeCompleteType(ITypeCompletionContext completionContext, DefinitionBase definition)
     {
         if (definition is not ObjectTypeDefinition objectTypeDefinition) return;
@@ -29,7 +22,7 @@ public abstract class QuantityTypeInterceptor<TQuantity, TUnit> : TypeIntercepto
             }
 
             var argument = ArgumentDescriptor.New(completionContext.DescriptorContext, "unit")
-                .DefaultValue(_defaultUnit)
+                .DefaultValue(defaultUnit)
                 .Type<NonNullType<EnumType<TUnit>>>();
 
             field.Arguments.Add(argument.ToDefinition());

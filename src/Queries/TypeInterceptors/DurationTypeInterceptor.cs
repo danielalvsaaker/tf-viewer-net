@@ -4,7 +4,4 @@ using UnitsNet.Units;
 
 namespace Queries.TypeInterceptors;
 
-public class DurationTypeInterceptor : QuantityTypeInterceptor<Duration, DurationUnit>
-{
-    public DurationTypeInterceptor() : base(DurationUnit.Second) {}
-}
+public class DurationTypeInterceptor() : QuantityTypeInterceptor<Duration, DurationUnit>(DurationUnit.Second);

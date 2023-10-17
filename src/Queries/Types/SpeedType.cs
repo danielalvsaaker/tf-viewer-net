@@ -2,6 +2,4 @@ using UnitsNet;
 
 namespace Queries.Types;
 
-public class SpeedType : QuantityType<Speed>
-{
-}
+public class SpeedType : QuantityType<Speed>;

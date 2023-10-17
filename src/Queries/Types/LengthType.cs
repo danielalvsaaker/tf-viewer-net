@@ -2,6 +2,4 @@ using UnitsNet;
 
 namespace Queries.Types;
 
-public class LengthType : QuantityType<Length>
-{
-}
+public class LengthType : QuantityType<Length>;

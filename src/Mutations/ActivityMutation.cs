@@ -27,7 +27,7 @@ public class ActivityMutation
                 .Where(activity => activity.UserId == uploadedActivity.UserId)
                 .AnyAsync(activity => activity.ActivityId == uploadedActivity.ActivityId))
         {
-            throw new ActivityExistsException(uploadedActivity.UserId, uploadedActivity.ActivityId);
+            throw new ActivityExistsException();
         }
 
         context.Activities.Add(uploadedActivity);

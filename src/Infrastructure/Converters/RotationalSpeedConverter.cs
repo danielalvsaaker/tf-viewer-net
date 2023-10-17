@@ -3,11 +3,6 @@ using UnitsNet;
 
 namespace Infrastructure.Converters;
 
-internal class RotationalSpeedConverter : ValueConverter<RotationalSpeed, decimal>
-{
-    public RotationalSpeedConverter() : base(
-        value => Convert.ToDecimal(value.RevolutionsPerMinute),
-        value => RotationalSpeed.FromRevolutionsPerMinute(value)
-    )
-    { }
-}
+internal class RotationalSpeedConverter() : ValueConverter<RotationalSpeed, decimal>(
+    value => Convert.ToDecimal(value.RevolutionsPerMinute),
+    value => RotationalSpeed.FromRevolutionsPerMinute(value));

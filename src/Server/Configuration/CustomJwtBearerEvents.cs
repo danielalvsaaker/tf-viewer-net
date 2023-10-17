@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using Core;
 using IdentityModel;
 using IdentityModel.Client;

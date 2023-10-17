@@ -3,7 +3,4 @@ using UnitsNet.Units;
 
 namespace Queries.TypeInterceptors;
 
-public class SpeedTypeInterceptor : QuantityTypeInterceptor<Speed, SpeedUnit>
-{
-    public SpeedTypeInterceptor() : base(SpeedUnit.MeterPerSecond) {}
-}
+public class SpeedTypeInterceptor() : QuantityTypeInterceptor<Speed, SpeedUnit>(SpeedUnit.MeterPerSecond);

@@ -2,5 +2,4 @@ using UnitsNet;
 
 namespace Queries.Types;
 
-public class PowerType : QuantityType<Power>
-{}
+public class PowerType : QuantityType<Power>;

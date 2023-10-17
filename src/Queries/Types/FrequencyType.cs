@@ -2,6 +2,4 @@ using UnitsNet;
 
 namespace Queries.Types;
 
-public class FrequencyType : QuantityType<Frequency>
-{
-}
+public class FrequencyType : QuantityType<Frequency>;
