@@ -13,7 +13,7 @@ using Server.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddDbContext<ApplicationDbContext>(options =>
+    .AddPooledDbContextFactory<ApplicationDbContext>(options =>
     {
         if (builder.Configuration.GetConnectionString(Infrastructure.Postgres.Provider.Name) is {} connectionString)
         {
@@ -36,7 +36,7 @@ builder.Services
 builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
-    .RegisterDbContext<ApplicationDbContext>()
+    .RegisterDbContext<ApplicationDbContext>(DbContextKind.Pooled)
     .AddSpatialTypes()
     .AddProjections()
     .AddFiltering()

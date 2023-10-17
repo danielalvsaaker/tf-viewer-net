@@ -14,11 +14,6 @@ public static class CustomJwtBearerEvents
 {
     public static async Task OnTokenValidated(TokenValidatedContext validationContext)
     {
-        var context = validationContext
-            .HttpContext
-            .RequestServices
-            .GetRequiredService<ApplicationDbContext>();
-
         var token = (validationContext.SecurityToken as JsonWebToken)!;
 
         var cache = validationContext
@@ -46,6 +41,13 @@ public static class CustomJwtBearerEvents
             Address = openIdConnectConfiguration.UserInfoEndpoint,
             Token = token.EncodedToken
         });
+        
+        await using var context = await validationContext
+            .HttpContext
+            .RequestServices
+            .GetRequiredService<IDbContextFactory<ApplicationDbContext>>()
+            .CreateDbContextAsync();
+
 
         if (await context.Users.SingleOrDefaultAsync(user => user.Id == token.Subject) is { } user)
         {
