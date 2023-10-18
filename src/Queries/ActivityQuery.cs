@@ -62,4 +62,16 @@ public class ActivityQuery
             .Where(activity => activity.ActivityId == parent.ActivityId)
             .SelectMany(activity => activity.Laps);
     }
+
+    [UseFirstOrDefault]
+    [UseProjection]
+    public IQueryable<User> Owner(
+        [Parent] Activity parent,
+        ApplicationDbContext context)
+    {
+        return context
+            .Users
+            .AsNoTracking()
+            .Where(user => user.Id == parent.UserId);
+    }
 }
