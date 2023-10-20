@@ -1,8 +1,10 @@
+using HotChocolate.Types.Spatial;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Mutations;
 using Mutations.ErrorFilters;
+using NetTopologySuite.Geometries;
 using Parser.Fit;
 using Queries;
 using Server.Configuration;
@@ -37,11 +39,12 @@ builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
     .RegisterDbContext<ApplicationDbContext>(DbContextKind.Pooled)
-    .AddSpatialTypes()
     .AddProjections()
     .AddFiltering()
     .AddSorting()
     .AddSpatialFiltering()
+    .BindRuntimeType<Geometry, GeoJsonInterfaceType>()
+    .AddSpatialTypes()
     .AddSpatialProjections()
     .AddUnitTypes()
     .AddQueryType<Query>()

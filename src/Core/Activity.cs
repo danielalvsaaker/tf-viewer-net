@@ -1,27 +1,33 @@
 using HotChocolate;
+using NetTopologySuite.Geometries;
+using UnitsNet;
 
 namespace Core;
 
 public class Activity
 {
     [IsProjected(true)]
+    public string UserId { get; set; } = null!;
+    [IsProjected(true)]
     public string ActivityId { get; private set; } = null!;
+    
     [IsProjected(true)]
-    public string UserId { get; set; }
-    [IsProjected(true)]
-    public required DateTimeOffset Timestamp
+    public required DateTimeOffset StartTime
     {
-        get => _timestamp;
+        get => _startTime;
         init
         {
-            _timestamp = value;
-            ActivityId = _timestamp.ToString("yyyyMMddHHmmss");
+            _startTime = value;
+            ActivityId = _startTime.ToString("yyyyMMddHHmmss");
         }
     }
-    private readonly DateTimeOffset _timestamp;
+    private readonly DateTimeOffset _startTime;
 
-    public required Session Session { get; init; }
+    public Duration TotalTimerTime { get; set; }
+    public required Geometry BoundingBox { get; set; }
 
+    [GraphQLIgnore]
+    public required ICollection<Session> Sessions { get; init; } = new List<Session>();
     [GraphQLIgnore]
     public required ICollection<Record> Records { get; init; } = new List<Record>();
     [GraphQLIgnore]

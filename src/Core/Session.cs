@@ -7,13 +7,13 @@ namespace Core;
 public class Session
 {
     [GraphQLIgnore]
-    public string ActivityId { get; private set; } = null!;
+    public string UserId { get; private set; } = null!;
     [GraphQLIgnore]
-    public string UserId { get; private set; }
+    public string ActivityId { get; private set; } = null!;
 
     public required DateTimeOffset StartTime { get; init; }
 
-    public required MultiPoint BoundingBox { get; init; }
+    public required Geometry BoundingBox { get; init; }
 
     public required Duration Duration { get; set; }
     public required Duration DurationActive { get; set; }

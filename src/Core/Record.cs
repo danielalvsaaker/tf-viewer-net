@@ -7,9 +7,9 @@ namespace Core;
 public class Record
 {
     [GraphQLIgnore]
-    public string ActivityId { get; private set; } = null!;
+    public string UserId { get; private set; } = null!;
     [GraphQLIgnore]
-    public string UserId { get; private set; }
+    public string ActivityId { get; private set; } = null!;
 
     public required DateTimeOffset Timestamp { get; init; }
 

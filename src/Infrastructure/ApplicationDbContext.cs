@@ -52,9 +52,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             });
 
         builder.Entity<Activity>()
-            .HasOne(activity => activity.Session)
+            .HasMany(activity => activity.Sessions)
             .WithOne()
-            .HasForeignKey<Session>(session => new { session.UserId, session.ActivityId });
+            .HasForeignKey(session => new { session.UserId, session.ActivityId });
 
         builder.Entity<Activity>()
             .HasMany(activity => activity.Records)
@@ -70,7 +70,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .HasKey(session => new
             {
                 session.UserId,
-                session.ActivityId
+                session.ActivityId,
+                session.StartTime
             });
 
         builder.Entity<Record>()

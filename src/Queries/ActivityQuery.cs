@@ -19,8 +19,8 @@ public class ActivityQuery
             .Activities
             .AsNoTracking()
             .Where(activity => activity.UserId == parent.UserId)
-            .Where(activity => activity.Timestamp < parent.Timestamp)
-            .OrderByDescending(activity => activity.Timestamp);
+            .Where(activity => activity.StartTime < parent.StartTime)
+            .OrderByDescending(activity => activity.StartTime);
     }
 
     [UseFirstOrDefault]
@@ -33,8 +33,21 @@ public class ActivityQuery
             .Activities
             .AsNoTracking()
             .Where(activity => activity.UserId == parent.UserId)
-            .Where(activity => activity.Timestamp > parent.Timestamp)
-            .OrderBy(activity => activity.Timestamp);
+            .Where(activity => activity.StartTime > parent.StartTime)
+            .OrderBy(activity => activity.StartTime);
+    }
+
+    [UseProjection]
+    public IQueryable<Session> Sessions(
+        [Parent] Activity parent,
+        ApplicationDbContext context)
+    {
+        return context
+            .Activities
+            .AsNoTracking()
+            .Where(activity => activity.UserId == parent.UserId)
+            .Where(activity => activity.ActivityId == parent.ActivityId)
+            .SelectMany(activity => activity.Sessions);
     }
 
     [UseProjection]
