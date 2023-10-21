@@ -60,7 +60,7 @@ public class UserMutation
         {
             return null;
         }
-        
+
         owner.Following.Remove(target);
         await context.SaveChangesAsync();
 

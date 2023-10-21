@@ -72,7 +72,7 @@ public class UserQuery
             .Users
             .AsNoTracking()
             .Where(user => user.Id == parent.Id);
-        
+
         var activities = user
             .SelectMany(user => user.Activities);
         var followingActivities = user

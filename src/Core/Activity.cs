@@ -10,7 +10,7 @@ public class Activity
     public string UserId { get; set; } = null!;
     [IsProjected(true)]
     public string ActivityId { get; private set; } = null!;
-    
+
     [IsProjected(true)]
     public required DateTimeOffset StartTime
     {

@@ -40,7 +40,7 @@ public static class CustomJwtBearerEvents
             Address = openIdConnectConfiguration.UserInfoEndpoint,
             Token = token.EncodedToken
         });
-        
+
         await using var context = await validationContext
             .HttpContext
             .RequestServices

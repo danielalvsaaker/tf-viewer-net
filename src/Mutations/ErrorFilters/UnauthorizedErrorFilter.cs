@@ -3,7 +3,7 @@ using Mutations.Exceptions;
 
 namespace Mutations.ErrorFilters;
 
-public class UnauthorizedErrorFilter  : IErrorFilter
+public class UnauthorizedErrorFilter : IErrorFilter
 {
     public IError OnError(IError error)
     {

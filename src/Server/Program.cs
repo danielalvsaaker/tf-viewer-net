@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddPooledDbContextFactory<ApplicationDbContext>(options =>
     {
-        if (builder.Configuration.GetConnectionString(Infrastructure.Postgres.Provider.Name) is {} connectionString)
+        if (builder.Configuration.GetConnectionString(Infrastructure.Postgres.Provider.Name) is { } connectionString)
         {
             options.UseNpgsql(
                 connectionString,

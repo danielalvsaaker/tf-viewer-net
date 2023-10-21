@@ -48,7 +48,7 @@ public class ActivityMutation
         {
             throw new UnauthorizedException();
         }
-        
+
         var activity = await context.Activities
             .Where(activity => activity.UserId == userId)
             .Where(activity => activity.ActivityId == activityId)

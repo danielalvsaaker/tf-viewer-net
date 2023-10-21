@@ -16,8 +16,8 @@ namespace Parser.Fit;
 public class ActivityParser
 {
     private List<Session> Sessions { get; } = new();
-    private List<Record> Records { get; }= new();
-    private List<Lap> Laps { get; }= new();
+    private List<Record> Records { get; } = new();
+    private List<Lap> Laps { get; } = new();
     private Activity? Activity { get; set; }
 
     public Activity? Parse(Stream input)
@@ -45,7 +45,7 @@ public class ActivityParser
         {
             return;
         }
-        
+
         Activity = new Activity
         {
             StartTime = Sessions.Select(session => session.StartTime).Order().First(),
@@ -76,12 +76,12 @@ public class ActivityParser
                     sessionMesg.GetSwcLat(),
                     sessionMesg.GetNecLong(),
                     sessionMesg.GetNecLat()) switch
-                {
-                    ({ } swcLon, { } swcLat, { } necLon, { } necLat) => new Envelope(
-                        new Coordinate(swcLon.SemicircleToDegree(), swcLat.SemicircleToDegree()),
-                        new Coordinate(necLon.SemicircleToDegree(), necLat.SemicircleToDegree())),
-                    _ => new Envelope(),
-                }).ToGeometry(),
+            {
+                ({ } swcLon, { } swcLat, { } necLon, { } necLat) => new Envelope(
+                    new Coordinate(swcLon.SemicircleToDegree(), swcLat.SemicircleToDegree()),
+                    new Coordinate(necLon.SemicircleToDegree(), necLat.SemicircleToDegree())),
+                _ => new Envelope(),
+            }).ToGeometry(),
 
             Duration = sessionMesg.GetTotalElapsedTime()!.Value.Seconds(),
             DurationActive = sessionMesg.GetTotalTimerTime()!.Value.Seconds(),
