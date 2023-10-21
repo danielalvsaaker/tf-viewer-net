@@ -15,11 +15,12 @@ namespace Parser.Fit;
 
 public class ActivityParser
 {
-    private Session? _session = null;
-    private readonly List<Record> _records = new List<Record>();
-    private readonly List<Lap> _laps = new List<Lap>();
+    private List<Session> Sessions { get; } = new();
+    private List<Record> Records { get; }= new();
+    private List<Lap> Laps { get; }= new();
+    private Activity? Activity { get; set; }
 
-    public Activity Parse(Stream input)
+    public Activity? Parse(Stream input)
     {
         var decoder = new Decode();
         var broadcaster = new MesgBroadcaster();
@@ -27,17 +28,35 @@ public class ActivityParser
         broadcaster.RecordMesgEvent += OnRecordMessage;
         broadcaster.SessionMesgEvent += OnSessionMessage;
         broadcaster.LapMesgEvent += OnLapMessage;
+        broadcaster.ActivityMesgEvent += OnActivityMessage;
 
         decoder.MesgEvent += broadcaster.OnMesg;
 
-        var result = decoder.Read(input);
-
-        return new Activity
+        return decoder.Read(input) switch
         {
-            Timestamp = _session.StartTime,
-            Session = _session,
-            Records = _records,
-            Laps = _laps,
+            false => null,
+            true => Activity,
+        };
+    }
+
+    private void OnActivityMessage(object _, MesgEventArgs args)
+    {
+        if (args.mesg is not ActivityMesg activityMesg)
+        {
+            return;
+        }
+        
+        Activity = new Activity
+        {
+            StartTime = Sessions.Select(session => session.StartTime).Order().First(),
+            TotalTimerTime = activityMesg.GetTotalTimerTime()!.Value.Seconds(),
+            BoundingBox = Sessions
+                .Select(session => session.BoundingBox.EnvelopeInternal)
+                .Aggregate((acc, envelope) => acc.ExpandedBy(envelope))
+                .ToGeometry(),
+            Sessions = Sessions,
+            Records = Records,
+            Laps = Laps
         };
     }
 
@@ -48,23 +67,21 @@ public class ActivityParser
             return;
         }
 
-        _session = new Session
+        Sessions.Add(new Session
         {
             StartTime = sessionMesg.GetStartTime().GetDateTime(),
 
-            BoundingBox = (
+            BoundingBox = ((
                     sessionMesg.GetSwcLong(),
                     sessionMesg.GetSwcLat(),
                     sessionMesg.GetNecLong(),
                     sessionMesg.GetNecLat()) switch
                 {
-                    ({ } swcLon, { } swcLat, { } necLon, { } necLat) => new MultiPoint(new[]
-                    {
-                        new Point(swcLon.SemicircleToDegree(), swcLat.SemicircleToDegree()),
-                        new Point(necLon.SemicircleToDegree(), necLat.SemicircleToDegree())
-                    }),
-                    _ => new MultiPoint(null)
-                },
+                    ({ } swcLon, { } swcLat, { } necLon, { } necLat) => new Envelope(
+                        new Coordinate(swcLon.SemicircleToDegree(), swcLat.SemicircleToDegree()),
+                        new Coordinate(necLon.SemicircleToDegree(), necLat.SemicircleToDegree())),
+                    _ => new Envelope(),
+                }).ToGeometry(),
 
             Duration = sessionMesg.GetTotalElapsedTime()!.Value.Seconds(),
             DurationActive = sessionMesg.GetTotalTimerTime()!.Value.Seconds(),
@@ -87,7 +104,7 @@ public class ActivityParser
             Descent = sessionMesg.GetTotalDescent()?.Meters(),
 
             Calories = sessionMesg.GetTotalCalories()?.Kilocalories(),
-        };
+        });
     }
 
     private void OnRecordMessage(object _, MesgEventArgs args)
@@ -97,7 +114,7 @@ public class ActivityParser
             return;
         }
 
-        _records.Add(new Record
+        Records.Add(new Record
         {
             Timestamp = recordMesg.GetTimestamp().GetDateTime(),
             Position = (recordMesg.GetPositionLong()?.SemicircleToDegree(), recordMesg.GetPositionLat()?.SemicircleToDegree()) switch
@@ -121,7 +138,7 @@ public class ActivityParser
             return;
         }
 
-        _laps.Add(new Lap
+        Laps.Add(new Lap
         {
             StartTime = lapMesg.GetStartTime().GetDateTime(),
             StartPosition = (lapMesg.GetStartPositionLong()?.SemicircleToDegree(), lapMesg.GetStartPositionLat()?.SemicircleToDegree()) switch

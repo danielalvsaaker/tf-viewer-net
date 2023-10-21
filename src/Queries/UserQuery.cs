@@ -19,7 +19,7 @@ public class UserQuery
             .Activities
             .AsNoTracking()
             .Where(activity => activity.UserId == parent.Id)
-            .OrderByDescending(activity => activity.Timestamp);
+            .OrderByDescending(activity => activity.StartTime);
     }
 
     [UseSingleOrDefault]
@@ -80,7 +80,7 @@ public class UserQuery
 
         return activities
             .Concat(followingActivities)
-            .OrderByDescending(activity => activity.Timestamp);
+            .OrderByDescending(activity => activity.StartTime);
 
     }
 }
