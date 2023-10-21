@@ -28,9 +28,16 @@
         name = "tf-viewer";
         tag = "latest";
 
+        extraCommands = "mkdir -m 0777 tmp";
+
         config = {
           WorkingDir = "/data";
           Cmd = [ (lib.getExe server) ];
+          Env = [
+            "ASPNETCORE_URLS=http://+:8080"
+            "DOTNET_RUNNING_IN_CONTAINER=true"
+            "ASPNETCORE_ENVIRONMENT=Production"
+          ];
         };
       };
     };
