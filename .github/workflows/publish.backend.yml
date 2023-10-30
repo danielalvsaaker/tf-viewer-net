@@ -51,4 +51,4 @@ jobs:
 
     - name: Copy image to registry
       run: |
-        skopeo copy docker-archive:result docker://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        skopeo copy docker-archive:result docker://${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
