@@ -8,6 +8,7 @@ on:
     paths:
       - frontend/
       - flake.*
+      - .github/workflows/publish.frontend.yml
 
 env:
   REGISTRY: ghcr.io
