@@ -1,3 +1,6 @@
+using HotChocolate.AspNetCore;
+using HotChocolate.AspNetCore.Serialization;
+using HotChocolate.Execution.Serialization;
 using HotChocolate.Types.Spatial;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -87,11 +90,25 @@ builder.Services
         options.Validate();
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+    });
+});
+
 var app = builder.Build();
 
+app.UseCors();
 app.UseAuthentication()
     .UseAuthorization();
 
-app.MapGraphQL();
+app.MapGraphQL().WithOptions(new GraphQLServerOptions
+{
+    Tool = { Enable = app.Environment.IsDevelopment() }
+});
 
 app.Run();
