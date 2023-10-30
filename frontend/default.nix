@@ -6,7 +6,7 @@ let
   };
 in
 {
-  config.packages.frontend = pkgs.buildNpmPackage {
+  config.packages.frontend = buildNpmPackage {
     pname = "tf-viewer-web";
     version = "0.1.0";
     meta.mainProgram = "tf-viewer-web";
