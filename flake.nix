@@ -1,51 +1,17 @@
 {
-  inputs.nixpkgs.url = "github:nixos/nixpkgs";
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+  inputs.flake-parts.url = "github:hercules-ci/flake-parts";
 
-  outputs = { self, nixpkgs }:
-  let
-    pkgs = nixpkgs.legacyPackages.x86_64-linux;
-    lib = pkgs.lib;
-    dotnet-sdk = pkgs.dotnet-sdk_8;
-    dotnet-runtime = pkgs.dotnet-aspnetcore_8;
-  in rec {
-    packages.x86_64-linux = rec {
-      server = pkgs.buildDotnetModule {
-        pname = "tf-viewer";
-        version = "0.1";
-        meta.mainProgram = "Server";
+  outputs = { self, nixpkgs, flake-parts }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
+      perSystem = { config, pkgs, ... }: {
+        imports = [
+          ./backend
+          ./frontend
+        ];
 
-        src = ./src;
-        nugetDeps = ./deps.nix;
-        projectFile = "Server/Server.csproj";
-
-        inherit dotnet-sdk dotnet-runtime;
-
-        executables = [ "Server" ];
-        runtimeDeps = [ pkgs.libspatialite pkgs.sqlite ];
-      };
-
-      image = pkgs.dockerTools.buildLayeredImage {
-        name = "tf-viewer";
-        tag = "latest";
-
-        extraCommands = "mkdir -m 0777 tmp";
-
-        config = {
-          WorkingDir = "/data";
-          Cmd = [ (lib.getExe server) ];
-          Env = [
-            "ASPNETCORE_URLS=http://+:8080"
-            "DOTNET_RUNNING_IN_CONTAINER=true"
-            "ASPNETCORE_ENVIRONMENT=Production"
-          ];
-        };
+        formatter = pkgs.nixpkgs-fmt;
       };
     };
-
-    devShells.x86_64-linux.default = pkgs.mkShell {
-      inputsFrom = [ packages.x86_64-linux.server ];
-
-      LD_LIBRARY_PATH = nixpkgs.lib.makeLibraryPath [ pkgs.libspatialite pkgs.sqlite ];
-    };
-  };
 }

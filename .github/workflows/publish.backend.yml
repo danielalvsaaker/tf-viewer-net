@@ -1,13 +1,16 @@
-name: Build and publish
+name: Build and publish (backend)
 
 on:
   push:
     branches:
       - main
+    paths:
+      - backend/
+      - flake.*
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: tf-viewer
 
 jobs:
   build:
@@ -15,14 +18,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: cachix/install-nix-action@v20
+    - uses: cachix/install-nix-action@v22
     - uses: DeterminateSystems/magic-nix-cache-action@main
 
-    - name: Build server
-      run: nix build .#server -L
+    - name: Build backend package
+      run: nix build .#backend -L
 
     - name: Build OCI image
-      run: nix build .#image -L
+      run: nix build .#backend-image -L
 
     - uses: actions/upload-artifact@v3
       with:

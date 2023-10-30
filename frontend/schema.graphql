@@ -1,0 +1,672 @@
+"""A connection to a list of items."""
+type ActivitiesConnection {
+  """A list of edges."""
+  edges: [ActivitiesEdge!]
+
+  """A flattened list of the nodes."""
+  nodes: [Activity!]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Identifies the total count of items in the connection."""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type ActivitiesEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Activity!
+}
+
+type Activity {
+  activityId: String!
+  boundingBox: GeoJSONInterface!
+  laps: [Lap!]!
+  next: Activity
+  owner: User
+  previous: Activity
+  records: [Record!]!
+  sessions: [Session!]!
+  startTime: DateTime!
+  totalTimerTime(unit: DurationUnit! = SECOND): Duration!
+  userId: String!
+}
+
+type ActivityExistsError implements Error {
+  message: String!
+}
+
+enum ApplyPolicy {
+  AFTER_RESOLVER
+  BEFORE_RESOLVER
+  VALIDATION
+}
+
+"""A coordinate is an array of positions."""
+scalar Coordinates
+
+"""The `DateTime` scalar represents an ISO-8601 compliant date time type."""
+scalar DateTime
+
+input DeleteActivityInput {
+  activityId: String!
+  userId: String!
+}
+
+type DeleteActivityPayload {
+  activityId: String
+}
+
+scalar Duration
+
+enum DurationUnit {
+  DAY
+  HOUR
+  JULIAN_YEAR
+  MICROSECOND
+  MILLISECOND
+  MINUTE
+  MONTH30
+  NANOSECOND
+  SECOND
+  WEEK
+  YEAR365
+}
+
+scalar Energy
+
+enum EnergyUnit {
+  BRITISH_THERMAL_UNIT
+  CALORIE
+  DECATHERM_EC
+  DECATHERM_IMPERIAL
+  DECATHERM_US
+  ELECTRON_VOLT
+  ERG
+  FOOT_POUND
+  GIGABRITISH_THERMAL_UNIT
+  GIGAELECTRON_VOLT
+  GIGAJOULE
+  GIGAWATT_DAY
+  GIGAWATT_HOUR
+  HORSEPOWER_HOUR
+  JOULE
+  KILOBRITISH_THERMAL_UNIT
+  KILOCALORIE
+  KILOELECTRON_VOLT
+  KILOJOULE
+  KILOWATT_DAY
+  KILOWATT_HOUR
+  MEGABRITISH_THERMAL_UNIT
+  MEGACALORIE
+  MEGAELECTRON_VOLT
+  MEGAJOULE
+  MEGAWATT_DAY
+  MEGAWATT_HOUR
+  MICROJOULE
+  MILLIJOULE
+  NANOJOULE
+  PETAJOULE
+  TERAELECTRON_VOLT
+  TERAJOULE
+  TERAWATT_DAY
+  TERAWATT_HOUR
+  THERM_EC
+  THERM_IMPERIAL
+  THERM_US
+  WATT_DAY
+  WATT_HOUR
+}
+
+interface Error {
+  message: String!
+}
+
+"""A connection to a list of items."""
+type FeedConnection {
+  """A list of edges."""
+  edges: [FeedEdge!]
+
+  """A flattened list of the nodes."""
+  nodes: [Activity!]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""An edge in a connection."""
+type FeedEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Activity!
+}
+
+input FollowUserInput {
+  userId: String!
+}
+
+type FollowUserPayload {
+  user: User
+}
+
+"""A connection to a list of items."""
+type FollowersConnection {
+  """A list of edges."""
+  edges: [FollowersEdge!]
+
+  """A flattened list of the nodes."""
+  nodes: [User!]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""An edge in a connection."""
+type FollowersEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: User!
+}
+
+"""A connection to a list of items."""
+type FollowingConnection {
+  """A list of edges."""
+  edges: [FollowingEdge!]
+
+  """A flattened list of the nodes."""
+  nodes: [User!]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""An edge in a connection."""
+type FollowingEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: User!
+}
+
+scalar Frequency
+
+enum FrequencyUnit {
+  BEAT_PER_MINUTE
+  B_UNIT
+  CYCLE_PER_HOUR
+  CYCLE_PER_MINUTE
+  GIGAHERTZ
+  HERTZ
+  KILOHERTZ
+  MEGAHERTZ
+  MICROHERTZ
+  MILLIHERTZ
+  PER_SECOND
+  RADIAN_PER_SECOND
+  TERAHERTZ
+}
+
+enum GeoJSONGeometryType {
+  GeometryCollection
+  LineString
+  MultiLineString
+  MultiPoint
+  MultiPolygon
+  Point
+  Polygon
+}
+
+interface GeoJSONInterface {
+  """The minimum bounding box around the geometry object"""
+  bbox: [Float]
+
+  """The coordinate reference system integer identifier"""
+  crs: Int
+
+  """The geometry type of the GeoJson object"""
+  type: GeoJSONGeometryType!
+}
+
+type GeoJSONLineStringType implements GeoJSONInterface {
+  """The minimum bounding box around the geometry object"""
+  bbox: [Float!]!
+
+  """The "coordinates" field is an array of two or more positions."""
+  coordinates: [Position]
+
+  """The coordinate reference system integer identifier"""
+  crs: Int!
+
+  """The geometry type of the GeoJson object"""
+  type: GeoJSONGeometryType!
+}
+
+type GeoJSONMultiLineStringType implements GeoJSONInterface {
+  """The minimum bounding box around the geometry object"""
+  bbox: [Float!]!
+
+  """The "coordinates" field is an array of LineString coordinate arrays."""
+  coordinates: [Position]
+
+  """The coordinate reference system integer identifier"""
+  crs: Int!
+
+  """The geometry type of the GeoJson object"""
+  type: GeoJSONGeometryType!
+}
+
+type GeoJSONMultiPointType implements GeoJSONInterface {
+  """The minimum bounding box around the geometry object"""
+  bbox: [Float!]!
+
+  """The "coordinates" field is an array of positions."""
+  coordinates: [Position]
+
+  """The coordinate reference system integer identifier"""
+  crs: Int!
+
+  """The geometry type of the GeoJson object"""
+  type: GeoJSONGeometryType!
+}
+
+type GeoJSONMultiPolygonType implements GeoJSONInterface {
+  """The minimum bounding box around the geometry object"""
+  bbox: [Float!]!
+
+  """The "coordinates" field is an array of Polygon coordinate arrays."""
+  coordinates: Coordinates
+
+  """The coordinate reference system integer identifier"""
+  crs: Int!
+
+  """The geometry type of the GeoJson object"""
+  type: GeoJSONGeometryType!
+}
+
+type GeoJSONPointType implements GeoJSONInterface {
+  """The minimum bounding box around the geometry object"""
+  bbox: [Float!]!
+
+  """The "coordinates" field is a single position."""
+  coordinates: Position
+
+  """The coordinate reference system integer identifier"""
+  crs: Int!
+
+  """The geometry type of the GeoJson object"""
+  type: GeoJSONGeometryType!
+}
+
+type GeoJSONPolygonType implements GeoJSONInterface {
+  """The minimum bounding box around the geometry object"""
+  bbox: [Float!]!
+
+  """
+  The "coordinates" field MUST be an array of linear ring coordinate arrays. For Polygons with more than one of these rings, the first MUST be the exterior ring, and any others MUST be interior rings. The exterior ring bounds the surface, and the interior rings (if present) bound holes within the surface.
+  """
+  coordinates: [[Position]]
+
+  """The coordinate reference system integer identifier"""
+  crs: Int!
+
+  """The geometry type of the GeoJson object"""
+  type: GeoJSONGeometryType!
+}
+
+type Lap {
+  ascent(unit: LengthUnit! = METER): Length
+  cadenceAverage(unit: RotationalSpeedUnit! = REVOLUTION_PER_MINUTE): RotationalSpeed
+  cadenceMax(unit: RotationalSpeedUnit! = REVOLUTION_PER_MINUTE): RotationalSpeed
+  calories(unit: EnergyUnit! = KILOCALORIE): Energy
+  descent(unit: LengthUnit! = METER): Length
+  distance(unit: LengthUnit! = METER): Length
+  duration(unit: DurationUnit! = SECOND): Duration!
+  durationActive(unit: DurationUnit! = SECOND): Duration!
+  endPosition: GeoJSONPointType
+  heartRateAverage(unit: FrequencyUnit! = BEAT_PER_MINUTE): Frequency
+  heartRateMax(unit: FrequencyUnit! = BEAT_PER_MINUTE): Frequency
+  powerAverage(unit: PowerUnit! = WATT): Power
+  powerMax(unit: PowerUnit! = WATT): Power
+  speedAverage(unit: SpeedUnit! = METER_PER_SECOND): Speed
+  speedMax(unit: SpeedUnit! = METER_PER_SECOND): Speed
+  startPosition: GeoJSONPointType
+  startTime: DateTime!
+}
+
+scalar Length
+
+enum LengthUnit {
+  ANGSTROM
+  ASTRONOMICAL_UNIT
+  CENTIMETER
+  CHAIN
+  DATA_MILE
+  DECAMETER
+  DECIMETER
+  DTP_PICA
+  DTP_POINT
+  FATHOM
+  FEMTOMETER
+  FOOT
+  GIGAMETER
+  HAND
+  HECTOMETER
+  INCH
+  KILOFOOT
+  KILOLIGHT_YEAR
+  KILOMETER
+  KILOPARSEC
+  LIGHT_YEAR
+  MEGALIGHT_YEAR
+  MEGAMETER
+  MEGAPARSEC
+  METER
+  MICROINCH
+  MICROMETER
+  MIL
+  MILE
+  MILLIMETER
+  NANOMETER
+  NAUTICAL_MILE
+  PARSEC
+  PICOMETER
+  PRINTER_PICA
+  PRINTER_POINT
+  SHACKLE
+  SOLAR_RADIUS
+  TWIP
+  US_SURVEY_FOOT
+  YARD
+}
+
+type Mutation {
+  deleteActivity(input: DeleteActivityInput!): DeleteActivityPayload!
+  followUser(input: FollowUserInput!): FollowUserPayload!
+  unfollowUser(input: UnfollowUserInput!): UnfollowUserPayload!
+  uploadActivity(input: UploadActivityInput!): UploadActivityPayload!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """
+  Indicates whether more edges exist following the set defined by the clients arguments.
+  """
+  hasNextPage: Boolean!
+
+  """
+  Indicates whether more edges exist prior the set defined by the clients arguments.
+  """
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+"""
+A position is an array of numbers. There MUST be two or more elements. The first two elements are longitude and latitude, or easting and northing, precisely in that order and using decimal numbers. Altitude or elevation MAY be included as an optional third element.
+"""
+scalar Position
+
+scalar Power
+
+enum PowerUnit {
+  BOILER_HORSEPOWER
+  BRITISH_THERMAL_UNIT_PER_HOUR
+  DECAWATT
+  DECIWATT
+  ELECTRICAL_HORSEPOWER
+  FEMTOWATT
+  GIGAJOULE_PER_HOUR
+  GIGAWATT
+  HYDRAULIC_HORSEPOWER
+  JOULE_PER_HOUR
+  KILOBRITISH_THERMAL_UNIT_PER_HOUR
+  KILOJOULE_PER_HOUR
+  KILOWATT
+  MECHANICAL_HORSEPOWER
+  MEGABRITISH_THERMAL_UNIT_PER_HOUR
+  MEGAJOULE_PER_HOUR
+  MEGAWATT
+  METRIC_HORSEPOWER
+  MICROWATT
+  MILLIJOULE_PER_HOUR
+  MILLIWATT
+  NANOWATT
+  PETAWATT
+  PICOWATT
+  TERAWATT
+  WATT
+}
+
+type Query {
+  user(userId: String!): User
+  users(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): UsersConnection
+}
+
+type Record {
+  altitude(unit: LengthUnit! = METER): Length
+  cadence(unit: RotationalSpeedUnit! = REVOLUTION_PER_MINUTE): RotationalSpeed
+  distance(unit: LengthUnit! = METER): Length
+  heartRate(unit: FrequencyUnit! = BEAT_PER_MINUTE): Frequency
+  position: GeoJSONPointType
+  power(unit: PowerUnit! = WATT): Power
+  speed(unit: SpeedUnit! = METER_PER_SECOND): Speed
+  timestamp: DateTime!
+}
+
+scalar RotationalSpeed
+
+enum RotationalSpeedUnit {
+  CENTIRADIAN_PER_SECOND
+  DECIRADIAN_PER_SECOND
+  DEGREE_PER_MINUTE
+  DEGREE_PER_SECOND
+  MICRODEGREE_PER_SECOND
+  MICRORADIAN_PER_SECOND
+  MILLIDEGREE_PER_SECOND
+  MILLIRADIAN_PER_SECOND
+  NANODEGREE_PER_SECOND
+  NANORADIAN_PER_SECOND
+  RADIAN_PER_SECOND
+  REVOLUTION_PER_MINUTE
+  REVOLUTION_PER_SECOND
+}
+
+type Session {
+  ascent(unit: LengthUnit! = METER): Length
+  boundingBox: GeoJSONInterface!
+  cadenceAverage(unit: RotationalSpeedUnit! = REVOLUTION_PER_MINUTE): RotationalSpeed
+  cadenceMax(unit: RotationalSpeedUnit! = REVOLUTION_PER_MINUTE): RotationalSpeed
+  calories(unit: EnergyUnit! = KILOCALORIE): Energy
+  descent(unit: LengthUnit! = METER): Length
+  distance(unit: LengthUnit! = METER): Length
+  duration(unit: DurationUnit! = SECOND): Duration!
+  durationActive(unit: DurationUnit! = SECOND): Duration!
+  heartRateAverage(unit: FrequencyUnit! = BEAT_PER_MINUTE): Frequency
+  heartRateMax(unit: FrequencyUnit! = BEAT_PER_MINUTE): Frequency
+  powerAverage(unit: PowerUnit! = WATT): Power
+  powerMax(unit: PowerUnit! = WATT): Power
+  speedAverage(unit: SpeedUnit! = METER_PER_SECOND): Speed
+  speedMax(unit: SpeedUnit! = METER_PER_SECOND): Speed
+  startTime: DateTime!
+}
+
+scalar Speed
+
+enum SpeedUnit {
+  CENTIMETER_PER_HOUR
+  CENTIMETER_PER_MINUTE
+  CENTIMETER_PER_SECOND
+  DECIMETER_PER_MINUTE
+  DECIMETER_PER_SECOND
+  FOOT_PER_HOUR
+  FOOT_PER_MINUTE
+  FOOT_PER_SECOND
+  INCH_PER_HOUR
+  INCH_PER_MINUTE
+  INCH_PER_SECOND
+  KILOMETER_PER_HOUR
+  KILOMETER_PER_MINUTE
+  KILOMETER_PER_SECOND
+  KNOT
+  MACH
+  METER_PER_HOUR
+  METER_PER_MINUTE
+  METER_PER_SECOND
+  MICROMETER_PER_MINUTE
+  MICROMETER_PER_SECOND
+  MILE_PER_HOUR
+  MILLIMETER_PER_HOUR
+  MILLIMETER_PER_MINUTE
+  MILLIMETER_PER_SECOND
+  NANOMETER_PER_MINUTE
+  NANOMETER_PER_SECOND
+  US_SURVEY_FOOT_PER_HOUR
+  US_SURVEY_FOOT_PER_MINUTE
+  US_SURVEY_FOOT_PER_SECOND
+  YARD_PER_HOUR
+  YARD_PER_MINUTE
+  YARD_PER_SECOND
+}
+
+scalar URL
+
+input UnfollowUserInput {
+  userId: String!
+}
+
+type UnfollowUserPayload {
+  user: User
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+union UploadActivityError = ActivityExistsError
+
+input UploadActivityInput {
+  file: Upload!
+}
+
+type UploadActivityPayload {
+  activity: Activity
+  errors: [UploadActivityError!]
+}
+
+type User {
+  activities(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): ActivitiesConnection
+  activity(activityId: String!): Activity
+  feed(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): FeedConnection
+  followers(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): FollowersConnection
+  following(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): FollowingConnection
+  name: String!
+  picture: URL
+  userId: String!
+  username: String!
+}
+
+"""A connection to a list of items."""
+type UsersConnection {
+  """A list of edges."""
+  edges: [UsersEdge!]
+
+  """A flattened list of the nodes."""
+  nodes: [User!]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Identifies the total count of items in the connection."""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type UsersEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: User!
+}

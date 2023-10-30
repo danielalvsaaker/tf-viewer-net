@@ -1,0 +1,61 @@
+name: Checks (frontend)
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - frontend/
+      - flake.*
+
+defaults:
+  run:
+    working-directory: ./frontend
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Build frontend package
+        run: nix build .#frontend -L
+
+  type-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix develop .#frontend --command npm ci
+      - name: Sync types
+        run: |
+          nix develop .#frontend --command npx svelte-kit sync
+          nix develop .#frontend --command npx houdini generate
+      - name: Check types
+        run: nix develop .#frontend --command npx svelte-check --tsconfig ./tsconfig.json
+
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix develop .#frontend --command npm ci
+      - name: Format
+        run: nix develop .#frontend --command npx prettier --check .
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix develop .#frontend --command npm ci
+      - name: Lint
+        run: nix develop .#frontend --command npx eslint .
