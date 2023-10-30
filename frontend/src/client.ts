@@ -1,7 +1,8 @@
 import { HoudiniClient } from '$houdini';
+import { env } from "$env/dynamic/public";
 
 export default new HoudiniClient({
-    url: 'http://localhost:5178/graphql',
+    url: `${env.PUBLIC_BACKEND_URL}/graphql`,
 
     fetchParams({ session }) {
         return {
