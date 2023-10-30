@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - backend/
+      - backend/**
       - flake.*
       - .github/workflows/checks.backend.yml
 
