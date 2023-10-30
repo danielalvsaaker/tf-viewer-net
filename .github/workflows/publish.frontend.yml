@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - frontend/
+      - frontend/**
       - flake.*
       - .github/workflows/publish.frontend.yml
 
