@@ -12,7 +12,7 @@ in
     meta.mainProgram = "tf-viewer-web";
 
     src = ./.;
-    npmDepsHash = "sha256-heqBdIpOKA9icD4h8RxPlSchGcj3wtjZKiOIWnAiCcE=";
+    npmDepsHash = "sha256-ErsD02XBtxO9R3L8LupW93filCzoAg5gHjv6clGhIYc=";
 
     nativeBuildInputs = [
       pkgs.pkg-config
@@ -23,6 +23,10 @@ in
 
     installPhase = ''
       runHook preInstall
+
+      npm config delete cache
+      npm prune --omit=dev --no-save
+      find node_modules -maxdepth 1 -type d -empty -delete
 
       mkdir -p $out/lib
       mv build package.json node_modules $out/lib
