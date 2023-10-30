@@ -48,7 +48,7 @@ public static class CustomJwtBearerEvents
             .CreateDbContextAsync();
 
 
-        if (await context.Users.SingleOrDefaultAsync(user => user.Id == token.Subject) is { } user)
+        if (await context.Users.SingleOrDefaultAsync(user => user.UserId == token.Subject) is { } user)
         {
             user.Picture = new Uri(userInfo.Claims.Single(claim => claim.Type is JwtClaimTypes.Picture).Value);
         }
@@ -56,7 +56,7 @@ public static class CustomJwtBearerEvents
         {
             user = new User
             {
-                Id = userInfo.Claims.Single(claim => claim.Type is JwtClaimTypes.Subject).Value,
+                UserId = userInfo.Claims.Single(claim => claim.Type is JwtClaimTypes.Subject).Value,
                 Name = userInfo.Claims.Single(claim => claim.Type is JwtClaimTypes.Name).Value,
                 Username = userInfo.Claims.Single(claim => claim.Type is JwtClaimTypes.PreferredUserName).Value,
                 Picture = userInfo.Claims

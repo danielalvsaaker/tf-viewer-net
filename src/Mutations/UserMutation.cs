@@ -18,13 +18,13 @@ public class UserMutation
         var ownerId = principal.FindFirst(ClaimTypes.NameIdentifier)!.Value;
         var owner = await context
             .Users
-            .Where(user => user.Id == ownerId)
+            .Where(user => user.UserId == ownerId)
             .Include(user => user.Following)
             .FirstAsync();
 
         var target = await context
             .Users
-            .Where(user => user.Id == userId)
+            .Where(user => user.UserId == userId)
             .FirstOrDefaultAsync();
 
         if (target is null)
@@ -47,13 +47,13 @@ public class UserMutation
         var ownerId = principal.FindFirst(ClaimTypes.NameIdentifier)!.Value;
         var owner = await context
             .Users
-            .Where(user => user.Id == ownerId)
+            .Where(user => user.UserId == ownerId)
             .Include(user => user.Following)
             .FirstAsync();
 
         var target = await context
             .Users
-            .Where(user => user.Id == userId)
+            .Where(user => user.UserId == userId)
             .FirstOrDefaultAsync();
 
         if (target is null)

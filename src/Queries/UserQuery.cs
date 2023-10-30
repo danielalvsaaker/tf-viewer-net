@@ -18,7 +18,7 @@ public class UserQuery
         return context
             .Activities
             .AsNoTracking()
-            .Where(activity => activity.UserId == parent.Id)
+            .Where(activity => activity.UserId == parent.UserId)
             .OrderByDescending(activity => activity.StartTime);
     }
 
@@ -32,7 +32,7 @@ public class UserQuery
         return context
             .Activities
             .AsNoTracking()
-            .Where(activity => activity.UserId == parent.Id)
+            .Where(activity => activity.UserId == parent.UserId)
             .Where(activity => activity.ActivityId == activityId);
     }
 
@@ -45,7 +45,7 @@ public class UserQuery
         return context
             .Users
             .AsNoTracking()
-            .Where(user => user.Id == parent.Id)
+            .Where(user => user.UserId == parent.UserId)
             .SelectMany(user => user.Following);
     }
 
@@ -58,7 +58,7 @@ public class UserQuery
         return context
             .Users
             .AsNoTracking()
-            .Where(user => user.Id == parent.Id)
+            .Where(user => user.UserId == parent.UserId)
             .SelectMany(user => user.Followers);
     }
 
@@ -71,7 +71,7 @@ public class UserQuery
         var user = context
             .Users
             .AsNoTracking()
-            .Where(user => user.Id == parent.Id);
+            .Where(user => user.UserId == parent.UserId);
 
         var activities = user
             .SelectMany(user => user.Activities);
