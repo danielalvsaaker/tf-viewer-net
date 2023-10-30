@@ -6,8 +6,8 @@ export const handle = SvelteKitAuth({
     trustHost: true,
     providers: [
         {
-            id: env.PROVIDER_ID,
-            name: env.PROVIDER_NAME,
+            id: env.PROVIDER_ID!,
+            name: env.PROVIDER_NAME!,
             type: 'oidc',
             issuer: env.ISSUER,
             clientId: env.CLIENT_ID,

@@ -32,7 +32,9 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - run: nix develop .#frontend --command npm ci
       - name: Sync types
-        run: nix develop .#frontend --command npx svelte-kit sync
+        run: |
+          nix develop .#frontend --command npx svelte-kit sync
+          nix develop .#frontend --command npx houdini generate
       - name: Check types
         run: nix develop .#frontend --command npx svelte-check --tsconfig ./tsconfig.json
 
