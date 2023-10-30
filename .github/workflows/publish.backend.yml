@@ -1,12 +1,14 @@
 name: Build and publish (backend)
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
     paths:
       - backend/
       - flake.*
+      - .github/workflows/publish.backend.yml
 
 env:
   REGISTRY: ghcr.io

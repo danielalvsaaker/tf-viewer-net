@@ -7,6 +7,7 @@ on:
     paths:
       - backend/
       - flake.*
+      - .github/workflows/checks.backend.yml
 
 defaults:
   run:
