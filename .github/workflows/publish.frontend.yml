@@ -1,0 +1,54 @@
+name: Build and publish (frontend)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/
+      - flake.*
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: tf-viewer-web
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v22
+    - uses: DeterminateSystems/magic-nix-cache-action@main
+
+    - name: Build frontend image
+      run: nix build .#frontend -L
+
+    - name: Build OCI image
+      run: nix build .#frontend-image -L
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: oci-image
+        path: result
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: oci-image
+
+    - name: Authenticate with registry
+      run: |
+        skopeo login ${{ env.REGISTRY }} --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Copy image to registry
+      run: |
+        skopeo copy docker-archive:result docker://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
