@@ -2,6 +2,7 @@ using Infrastructure.Converters;
 using Microsoft.EntityFrameworkCore;
 using Core;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NetTopologySuite.Geometries;
 using UnitsNet;
 
 namespace Infrastructure;
@@ -40,6 +41,13 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         configurationBuilder
             .Properties<Energy>()
             .HaveConversion<EnergyConverter>();
+
+        if (Database.IsNpgsql())
+        {
+            configurationBuilder
+                .Properties<Point>()
+                .HaveColumnType("geometry (point)");
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
