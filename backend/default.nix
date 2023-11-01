@@ -30,6 +30,8 @@ in
 
       extraCommands = "mkdir -m 0777 tmp";
 
+      contents = [ pkgs.cacert ];
+
       config = {
         WorkingDir = "/data";
         Cmd = [ (lib.getExe backend) ];
