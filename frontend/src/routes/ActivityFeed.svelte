@@ -39,7 +39,7 @@
                 return;
             }
 
-            if (window.requestIdleCallback) {
+            if ('requestIdleCallback' in window) {
                 requestIdleCallback(() => userFeed.loadNextPage(), { timeout: 1000 });
             } else {
                 userFeed.loadNextPage();
