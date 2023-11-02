@@ -39,7 +39,12 @@
                 return;
             }
 
-            requestIdleCallback(() => userFeed.loadNextPage(), { timeout: 1000 });
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => userFeed.loadNextPage(), { timeout: 1000 });
+            } else {
+                userFeed.loadNextPage();
+            }
+
             intersectionObserver.unobserve(entry?.target);
         });
 
