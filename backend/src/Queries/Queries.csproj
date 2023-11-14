@@ -12,8 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="HotChocolate.Authorization" Version="13.5.1" />
-        <PackageReference Include="HotChocolate.Data" Version="13.5.1" />
+        <PackageReference Include="HotChocolate.Authorization" Version="13.7.0" />
+        <PackageReference Include="HotChocolate.Data" Version="13.7.0" />
     </ItemGroup>
 
 </Project>
