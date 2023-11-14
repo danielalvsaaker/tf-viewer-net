@@ -7,9 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="HotChocolate.Data" Version="13.5.1" />
+        <PackageReference Include="HotChocolate.Data" Version="13.7.0" />
         <PackageReference Include="NetTopologySuite" Version="2.5.0" />
-        <PackageReference Include="UnitsNet" Version="5.35.0" />
+        <PackageReference Include="UnitsNet" Version="5.36.0" />
     </ItemGroup>
 
 </Project>

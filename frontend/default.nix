@@ -12,7 +12,7 @@ in
     meta.mainProgram = "tf-viewer-web";
 
     src = ./.;
-    npmDepsHash = "sha256-ErsD02XBtxO9R3L8LupW93filCzoAg5gHjv6clGhIYc=";
+    npmDepsHash = "sha256-paasZAD/Ufcmz6BSy2mYVL46kYj/MTme/8N0nVaA9/s=";
 
     nativeBuildInputs = [
       pkgs.pkg-config
