@@ -50,7 +50,10 @@ public static class CustomJwtBearerEvents
 
         if (await context.Users.SingleOrDefaultAsync(user => user.UserId == token.Subject) is { } user)
         {
-            user.Picture = new Uri(userInfo.Claims.Single(claim => claim.Type is JwtClaimTypes.Picture).Value);
+            user.Picture = userInfo.Claims
+                .Where(claim => claim.Type is JwtClaimTypes.Picture)
+                .Select(claim => new Uri(claim.Value))
+                .FirstOrDefault();
         }
         else
         {
