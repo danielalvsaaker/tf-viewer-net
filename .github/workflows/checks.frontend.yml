@@ -20,7 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v12
+        with:
+          name: tf-viewer
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - name: Build frontend package
         run: nix build .#frontend -L
 
@@ -30,7 +33,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v12
+        with:
+          name: tf-viewer
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - run: nix develop .#frontend --command npm ci
       - name: Sync types
         run: |
@@ -45,7 +51,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v12
+        with:
+          name: tf-viewer
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - run: nix develop .#frontend --command npm ci
       - name: Format
         run: nix develop .#frontend --command npx prettier --check .
@@ -56,7 +65,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v22
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v12
+        with:
+          name: tf-viewer
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - run: nix develop .#frontend --command npm ci
       - name: Lint
         run: nix develop .#frontend --command npx eslint .
