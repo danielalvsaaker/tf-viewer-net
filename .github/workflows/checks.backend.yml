@@ -20,7 +20,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v22
-    - uses: DeterminateSystems/magic-nix-cache-action@main
+    - uses: cachix/cachix-action@v12
+      with:
+        name: tf-viewer
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
     - name: Build backend package
       run: nix build .#backend -L
 
@@ -30,6 +33,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v22
-    - uses: DeterminateSystems/magic-nix-cache-action@main
+    - uses: cachix/cachix-action@v12
+      with:
+        name: tf-viewer
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
     - name: Format
       run: nix develop .#backend --command dotnet format --verify-no-changes
