@@ -1,6 +1,4 @@
 using HotChocolate.AspNetCore;
-using HotChocolate.AspNetCore.Serialization;
-using HotChocolate.Execution.Serialization;
 using HotChocolate.Types.Spatial;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

@@ -3,7 +3,7 @@
 
 { fetchNuGet }: [
   (fetchNuGet { pname = "BananaCakePop.Middleware"; version = "7.0.4"; sha256 = "0v6h4h2qly33mwzq2ljwdjlc0c8hrfmp12cqz9251wvmb12pyp4f"; })
-  (fetchNuGet { pname = "Garmin.FIT.Sdk"; version = "21.120.2"; sha256 = "12lprddl981wk3brvgcl6k5v2aj6zlhl7vpy5y18hwciwg5l293c"; })
+  (fetchNuGet { pname = "Garmin.FIT.Sdk"; version = "21.126.0"; sha256 = "0wlgxbi7jbzq7z0ifx859ls6pyxgm5nwsa4wg2p396aras2m2s0f"; })
   (fetchNuGet { pname = "GreenDonut"; version = "13.7.0"; sha256 = "0zwafi4ghrrzmkigy2kvpfdl0g55999kp1q516qynkr7k4z0bd4k"; })
   (fetchNuGet { pname = "HotChocolate"; version = "13.7.0"; sha256 = "1nbdwqp62nmbjvwa5w22hfyxi88n5lfr3sfr6c94q55nkr77vqgs"; })
   (fetchNuGet { pname = "HotChocolate.Abstractions"; version = "13.7.0"; sha256 = "1jp2q8pg44vpiavlhnmmmbfyjj77n2rps03rhz5hd96wnv34rviz"; })
@@ -85,10 +85,10 @@
   (fetchNuGet { pname = "NetTopologySuite"; version = "2.5.0"; sha256 = "0lzjg7dsfkmxql1ssnyzas98m7wzif11d2ywdr1w0vrhyjny924w"; })
   (fetchNuGet { pname = "NetTopologySuite.IO.PostGis"; version = "2.1.0"; sha256 = "1fr2a5kq4yh09wxk2r6kywyxi7qsm4ksj9iszjpc4gaizi964czx"; })
   (fetchNuGet { pname = "NetTopologySuite.IO.SpatiaLite"; version = "2.0.0"; sha256 = "0hma1hl1c93d01lqgq00m8ir64rdvkbr4rx9xqk718rp6d8ihgk7"; })
-  (fetchNuGet { pname = "Npgsql"; version = "8.0.0-rc.2"; sha256 = "0gr5avgfmcnxx2jzg2w8v0rf0zxyl0q12br0ar4vw0hm2ym9z4g7"; })
-  (fetchNuGet { pname = "Npgsql.EntityFrameworkCore.PostgreSQL"; version = "8.0.0-rc.2"; sha256 = "125ikcbrqdlkhf2d8rjpkd927sgw2jl9g22x9zbkzk8q107m9ckb"; })
-  (fetchNuGet { pname = "Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite"; version = "8.0.0-rc.2"; sha256 = "0m1ijknqls42k0xfr2yh576i34a1fb2rrpw6waj0wnsn7b55bmd6"; })
-  (fetchNuGet { pname = "Npgsql.NetTopologySuite"; version = "8.0.0-rc.2"; sha256 = "0j51b1irmchfq60dmag98x3994j1lnbgzsrd7j2zhrygk341slmy"; })
+  (fetchNuGet { pname = "Npgsql"; version = "8.0.0"; sha256 = "1x3jlin44frkhd7d50q0vmy0gapxqhmd4jv1nvsnkndp3xjsaynd"; })
+  (fetchNuGet { pname = "Npgsql.EntityFrameworkCore.PostgreSQL"; version = "8.0.0"; sha256 = "0gakaj66imb5248w7sircam4b69y5di6xkrd62flqb5szlai3vg5"; })
+  (fetchNuGet { pname = "Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite"; version = "8.0.0"; sha256 = "0a40izr9ljab65w84jqsy84gpcly6pk8x4bzl6wmp6riazx2nb4j"; })
+  (fetchNuGet { pname = "Npgsql.NetTopologySuite"; version = "8.0.0"; sha256 = "07vfym6ama0k33djkyimf8g12wsnbwr0k8d7mc261cfrk7il0ciw"; })
   (fetchNuGet { pname = "ProjNET"; version = "2.0.0"; sha256 = "15k9jq9pggy2s6daxd8pi2gygvx69afmyrhg4fh5cx76cnw6fc0s"; })
   (fetchNuGet { pname = "SQLitePCLRaw.bundle_sqlite3"; version = "2.1.6"; sha256 = "0za6zgz21dhdq2651rg5wsxjq3vp353537p6g7gidzb6cql8dqxg"; })
   (fetchNuGet { pname = "SQLitePCLRaw.core"; version = "2.1.6"; sha256 = "1w8zsgz2w2q0a9cw9cl1rzrpv48a04nhyq67ywan6xlgknds65a7"; })

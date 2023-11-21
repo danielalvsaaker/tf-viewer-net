@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Garmin.FIT.Sdk" Version="21.120.2" />
+      <PackageReference Include="Garmin.FIT.Sdk" Version="21.126.0" />
       <PackageReference Include="UnitsNet.NumberExtensions" Version="5.36.0" />
     </ItemGroup>
 
