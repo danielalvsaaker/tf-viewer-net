@@ -1,18 +1,17 @@
 { pkgs, config, lib, ... }:
 let
   nodejs = pkgs.nodejs_21;
-  buildNpmPackage = pkgs.buildNpmPackage.override {
-    inherit nodejs;
-  };
 in
 {
-  config.packages.frontend = buildNpmPackage {
+  config.packages.frontend = pkgs.buildNpmPackage {
     pname = "tf-viewer-web";
     version = "0.1.0";
     meta.mainProgram = "tf-viewer-web";
 
     src = ./.;
-    npmDepsHash = "sha256-paasZAD/Ufcmz6BSy2mYVL46kYj/MTme/8N0nVaA9/s=";
+    npmDepsHash = "sha256-JJap4AFdLFuloUHIcCKRoJ7ocTVspjikuiwiRF4APDk=";
+
+    inherit nodejs;
 
     nativeBuildInputs = [
       pkgs.pkg-config
