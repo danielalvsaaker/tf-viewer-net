@@ -50,6 +50,9 @@ in
       config = {
         WorkingDir = "/data";
         Cmd = [ (lib.getExe frontend) ];
+        Env = [
+          "NODE_EXTRA_CA_CERTS=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+        ];
       };
     };
 
