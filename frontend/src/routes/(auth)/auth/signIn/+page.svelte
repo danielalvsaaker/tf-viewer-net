@@ -14,6 +14,6 @@
         type="button"
         on:click={() => signIn(data.provider.id, { callbackUrl: '/', redirect: true })}
     >
-        Sign in
+        Sign in with {data.provider.name}
     </Button>
 </div>
