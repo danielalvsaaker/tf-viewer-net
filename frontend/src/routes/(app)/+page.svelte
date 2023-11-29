@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { PageData } from './$houdini';
-    import ActivityFeed from './ActivityFeed.svelte';
+    import ActivityFeed from './(components)/ActivityFeed.svelte';
 
     export let data: PageData;
 

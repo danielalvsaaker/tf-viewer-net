@@ -32,7 +32,9 @@ export async function generateMap(
 ): Promise<Buffer> {
     const map = new StaticMaps({
         width,
-        height
+        height,
+        paddingY: 20,
+        paddingX: 20
     });
 
     map.addLine(activityToPolyline(activity));
