@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { cubicOut } from 'svelte/easing';
 import type { TransitionConfig } from 'svelte/transition';
+import { readable } from 'svelte/store';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -57,4 +58,23 @@ export const flyAndScale = (
         },
         easing: cubicOut
     };
+};
+
+export const useMediaQuery = (query: string) => {
+    if (typeof window === 'undefined' || !query) {
+        return readable(false);
+    }
+
+    const matches = readable(false, (set) => {
+        const m = window.matchMedia(query);
+        set(m.matches);
+        const mql = (e: { matches: boolean }) => set(e.matches);
+        m.addEventListener('change', mql);
+
+        return () => {
+            m.removeEventListener('change', mql);
+        };
+    });
+
+    return matches;
 };

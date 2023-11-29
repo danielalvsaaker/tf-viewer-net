@@ -1,5 +1,7 @@
 /// <references types="houdini-svelte">
 
+import { DateTime, Duration } from 'luxon';
+
 /** @type {import('houdini').ConfigFile} */
 const config = {
     watchSchema: {
@@ -18,7 +20,16 @@ const config = {
         },
         DateTime: {
             // <- The GraphQL Scalar
-            type: 'Date' // <-  The TypeScript type
+            type: 'import ("luxon").DateTime', // <-  The TypeScript type
+            unmarshal(val) {
+                return DateTime.fromISO(val);
+            }
+        },
+        Duration: {
+            type: 'import("luxon").Duration',
+            unmarshal(val) {
+                return Duration.fromMillis(val);
+            }
         },
         Position: {
             // <- The GraphQL Scalar

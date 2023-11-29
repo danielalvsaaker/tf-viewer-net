@@ -47,8 +47,8 @@ export const GET: RequestHandler = async (event) => {
     }
 
     const image = await generateMap(activity.data.user.activity as Activity, {
-        width: Math.trunc(700 * (width / height)),
-        height: Math.trunc(700 / (width / height))
+        width,
+        height
     });
 
     return new Response(image, {
