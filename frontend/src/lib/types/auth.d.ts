@@ -1,14 +1,14 @@
-import type { DefaultSession } from '@auth/core/types';
-
 declare module '@auth/core/types' {
-    interface Session extends DefaultSession {
+    interface Session {
         accessToken?: string | undefined;
+        error?: 'AccessTokenExpiredError';
     }
 }
 
 declare module '@auth/core/jwt' {
-    interface JWT extends DefaultJWT {
-        accessToken?: string | undefined;
+    interface JWT {
+        access_token?: string | undefined;
+        expires_at: number;
     }
 }
 
