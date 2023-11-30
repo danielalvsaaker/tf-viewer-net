@@ -5,8 +5,12 @@ export const load: LayoutServerLoad = async (event) => {
     const session = await event.locals.getSession();
 
     if (session) {
-        setSession(event, session);
+        setSession(event, { user: session.user });
     }
 
-    return { session };
+    return {
+        session: {
+            user: session?.user
+        }
+    };
 };

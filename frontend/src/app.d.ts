@@ -6,10 +6,13 @@ import type { DefaultSession } from '@auth/core/types';
 declare global {
     namespace App {
         interface Session {
-            accessToken: string;
-            user: {
-                id: string | undefined;
-            } & DefaultSession['user'];
+            accessToken?: string;
+            user:
+                | ({
+                      id: string | undefined;
+                  } & DefaultSession['user'])
+                | null;
+            error?: 'AccessTokenExpiredError';
         }
         // interface Error {}
         // interface Locals {}
