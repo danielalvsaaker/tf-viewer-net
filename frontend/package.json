@@ -41,6 +41,8 @@
         "@auth/sveltekit": "^0.3.6",
         "bits-ui": "^0.5.7",
         "clsx": "^2.0.0",
+        "d3-quadtree": "^3.0.1",
+        "layercake": "^8.0.2",
         "lucide-svelte": "^0.269.0",
         "luxon": "^3.4.4",
         "maplibre-gl": "^3.3.1",

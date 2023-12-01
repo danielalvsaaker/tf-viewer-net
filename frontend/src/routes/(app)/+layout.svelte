@@ -14,6 +14,4 @@
         {/if}
     </div>
 </div>
-<main class="container">
-    <slot />
-</main>
+<slot />

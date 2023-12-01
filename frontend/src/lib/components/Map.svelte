@@ -3,7 +3,8 @@
     import { Map, type LngLatBoundsLike } from 'maplibre-gl';
     import { onMount } from 'svelte';
     import { Skeleton } from '$lib/components/ui/skeleton';
-    import type { GeoJSONSourceSpecification } from 'maplibre-gl';
+    import type { GeoJSONSource, GeoJSONSourceSpecification } from 'maplibre-gl';
+    import { browser } from '$app/environment';
 
     let container: HTMLElement;
     let map: Map;
@@ -11,9 +12,18 @@
 
     export let geojson: GeoJSONSourceSpecification['data'] | null = null;
     export let bounds: LngLatBoundsLike;
-    export let interactive = true;
     let className: string | null = null;
     export { className as class };
+
+    let loaded = false;
+
+    $: if (loaded && geojson) {
+        const source = map.getSource('records') as GeoJSONSource;
+        source.setData(geojson);
+        map.fitBounds(bounds, {
+            padding: 40
+        });
+    }
 
     onMount(() => {
         map = new Map({
@@ -41,31 +51,59 @@
             bounds,
             fitBoundsOptions: {
                 padding: 40
-            },
-            interactive
+            }
         });
+
         map.on('load', () => {
             skeleton.$destroy();
+            loaded = true;
 
             if (geojson) {
-                map.addSource('records', {
+
+            map.addSource('records', {
+                type: 'geojson',
+                data: geojson
+            });
+
+            map.addLayer({
+                id: 'records',
+                type: 'line',
+                source: 'records',
+                layout: {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                paint: {
+                    'line-color': '#ff0000',
+                    'line-width': 4
+                }
+            });
+
+        }
+
+            /*
+                map.addSource('point', {
                     type: 'geojson',
-                    data: geojson
-                });
-                map.addLayer({
-                    id: 'records',
-                    type: 'line',
-                    source: 'records',
-                    layout: {
-                        'line-join': 'round',
-                        'line-cap': 'round'
-                    },
-                    paint: {
-                        'line-color': '#ff0000',
-                        'line-width': 4
+                    data: {
+                        type: 'Point'
                     }
                 });
-            }
+
+                map.addLayer({
+                    id: 'point',
+                    source: 'point',
+                    type: 'circle',
+                    paint: {
+                        'circle-radius': 6,
+                        'circle-color': '#ffffff',
+                        'circle-stroke-color': '#ff0000',
+                        'circle-stroke-width': 4
+                    },
+                    layout: {
+                        visibility: 'none'
+                    }
+                });
+                */
         });
         return () => map.remove();
     });

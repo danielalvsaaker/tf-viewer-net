@@ -1,0 +1,7 @@
+query Activity($user: String!, $activity: String!) @blocking {
+    user(userId: $user) {
+        activity(activityId: $activity) {
+            ...ActivityHeader
+        }
+    }
+}

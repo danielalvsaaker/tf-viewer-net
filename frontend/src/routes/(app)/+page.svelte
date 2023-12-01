@@ -7,6 +7,8 @@
     $: ({ Homepage } = data);
 </script>
 
-{#if $Homepage?.data?.user}
-    <ActivityFeed user={$Homepage.data.user} />
-{/if}
+<main class="container">
+    {#if $Homepage?.data?.user}
+        <ActivityFeed user={$Homepage.data.user} />
+    {/if}
+</main>

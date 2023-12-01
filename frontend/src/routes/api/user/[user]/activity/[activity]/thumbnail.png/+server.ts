@@ -5,7 +5,7 @@ import type { Activity } from '$lib/server/map.ts';
 
 const activityStore = graphql(
     `
-        query Activity($user: String!, $activity: String!) {
+        query Activity_Thumbnail($user: String!, $activity: String!) {
             user(userId: $user) {
                 activity(activityId: $activity) {
                     boundingBox {

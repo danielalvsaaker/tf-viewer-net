@@ -70,7 +70,7 @@
 {#if $userFeed?.data?.feed?.edges}
     {#each $userFeed.data.feed.edges.map((edge) => edge.node) as activity}
         <Card.Root class="mb-4">
-            <Card.Header class="">
+            <Card.Header>
                 <div class="flex items-center space-x-4">
                     <Avatar.Root class="h-8 w-8">
                         <Avatar.Image src={activity.owner?.picture} />
