@@ -19,9 +19,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: cachix/install-nix-action@v22
-    - uses: cachix/cachix-action@v12
+    - uses: actions/checkout@v4
+    - uses: cachix/install-nix-action@v24
+    - uses: cachix/cachix-action@v13
       with:
         name: tf-viewer
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
@@ -32,7 +32,7 @@ jobs:
     - name: Build OCI image
       run: nix build .#backend-image -L
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: oci-image
         path: result
@@ -46,7 +46,7 @@ jobs:
       packages: write
 
     steps:
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
         name: oci-image
 
