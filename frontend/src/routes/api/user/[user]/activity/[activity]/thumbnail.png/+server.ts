@@ -3,24 +3,22 @@ import { generateMap } from '$lib/server/map';
 import type { RequestHandler } from './$types';
 import type { Activity } from '$lib/server/map.ts';
 
-const activityStore = graphql(
-    `
-        query Activity($user: String!, $activity: String!) {
-            user(userId: $user) {
-                activity(activityId: $activity) {
-                    boundingBox {
-                        bbox
-                    }
-                    records {
-                        position {
-                            coordinates
-                        }
+const activityStore = graphql(`
+    query Activity($user: String!, $activity: String!) {
+        user(userId: $user) {
+            activity(activityId: $activity) {
+                boundingBox {
+                    bbox
+                }
+                records {
+                    position {
+                        coordinates
                     }
                 }
             }
         }
-    `
-);
+    }
+`);
 
 export const GET: RequestHandler = async (event) => {
     const session = await event.locals.getSession();
