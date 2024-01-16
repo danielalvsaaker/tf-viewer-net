@@ -12,7 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="Garmin.FIT.Sdk" Version="21.126.0" />
-      <PackageReference Include="UnitsNet.NumberExtensions" Version="5.36.0" />
+      <PackageReference Include="UnitsNet.NumberExtensions" Version="5.42.0" />
     </ItemGroup>
 
 </Project>

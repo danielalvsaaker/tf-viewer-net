@@ -13,9 +13,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="HotChocolate.Authorization" Version="13.7.0" />
-      <PackageReference Include="HotChocolate.Types.Mutations" Version="13.7.0" />
-      <PackageReference Include="HotChocolate.Types.Scalars.Upload" Version="13.7.0" />
+      <PackageReference Include="HotChocolate.Authorization" Version="13.8.1" />
+      <PackageReference Include="HotChocolate.Types.Mutations" Version="13.8.1" />
+      <PackageReference Include="HotChocolate.Types.Scalars.Upload" Version="13.8.1" />
     </ItemGroup>
 
 </Project>
