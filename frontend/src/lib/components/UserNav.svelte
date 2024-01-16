@@ -8,7 +8,7 @@
     let user = $page.data.session?.user;
 </script>
 
-<DropdownMenu.Root positioning={{ placement: 'bottom-end' }}>
+<DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
         <Button variant="ghost" builders={[builder]} class="relative h-8 w-8 rounded-full">
             <Avatar.Root class="h-8 w-8">

@@ -9,7 +9,7 @@ in
     meta.mainProgram = "tf-viewer-web";
 
     src = ./.;
-    npmDepsHash = "sha256-nXGYd6zcOka7TNKUGppeJU6j+LY2mqcYTeRynEsm4ag=";
+    npmDepsHash = "sha256-mjBGeEyMzEwjO4HmHPaQaWTA45TymRBdHORMwHjJe/k=";
 
     inherit nodejs;
 

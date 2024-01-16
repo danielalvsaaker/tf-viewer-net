@@ -1,6 +1,5 @@
-import { SvelteKitAuth } from '@auth/sveltekit';
+import { SvelteKitAuth, type Session } from '@auth/sveltekit';
 import { env } from '$env/dynamic/private';
-import type { JWT } from '@auth/core/jwt';
 import { sequence } from '@sveltejs/kit/hooks';
 import { redirect } from '@sveltejs/kit';
 
@@ -32,6 +31,7 @@ export const handle = sequence(
 
                 return token;
             },
+            // @ts-expect-error
             session: async ({ session, token }) => {
                 return {
                     ...session,
@@ -41,7 +41,7 @@ export const handle = sequence(
                     },
                     accessToken: token.access_token,
                     error:
-                        (token as JWT).expires_at * 1000 < Date.now()
+                        token.expires_at * 1000 < Date.now()
                             ? 'AccessTokenExpiredError'
                             : undefined
                 };
@@ -65,15 +65,15 @@ export const handle = sequence(
                 body: new URLSearchParams({ csrfToken })
             });
 
-            throw redirect(303, '/auth/signin');
+            redirect(303, '/auth/signin');
         }
 
         if (!session && !event.url.pathname.startsWith('/auth')) {
-            throw redirect(303, '/auth/signin');
+            redirect(303, '/auth/signin');
         }
 
         if (session && event.url.pathname.startsWith('/auth')) {
-            throw redirect(303, '/');
+            redirect(303, '/');
         }
 
         return resolve(event);
