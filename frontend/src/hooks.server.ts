@@ -1,4 +1,4 @@
-import { SvelteKitAuth, type Session } from '@auth/sveltekit';
+import { SvelteKitAuth } from '@auth/sveltekit';
 import { env } from '$env/dynamic/private';
 import { sequence } from '@sveltejs/kit/hooks';
 import { redirect } from '@sveltejs/kit';
@@ -31,7 +31,7 @@ export const handle = sequence(
 
                 return token;
             },
-            // @ts-expect-error
+            // @ts-expect-error https://github.com/nextauthjs/next-auth/issues/9633
             session: async ({ session, token }) => {
                 return {
                     ...session,
@@ -41,9 +41,7 @@ export const handle = sequence(
                     },
                     accessToken: token.access_token,
                     error:
-                        token.expires_at * 1000 < Date.now()
-                            ? 'AccessTokenExpiredError'
-                            : undefined
+                        token.expires_at * 1000 < Date.now() ? 'AccessTokenExpiredError' : undefined
                 };
             }
         }

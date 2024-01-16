@@ -9,7 +9,7 @@ export const POST: RequestHandler = async (event) => {
 
     // https://github.com/nodejs/undici/issues/1462
     const response = await request(`${env.BACKEND_URL}/graphql`, {
-        body: Readable.fromWeb(event.request.body as ReadableStream<any>),
+        body: Readable.fromWeb(event.request.body as ReadableStream<unknown>),
         method: 'POST',
         headers: {
             Authorization: `Bearer ${session?.accessToken}`,
