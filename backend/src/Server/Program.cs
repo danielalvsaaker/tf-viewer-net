@@ -3,15 +3,12 @@ using HotChocolate.Types.Spatial;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Mutations;
 using Mutations.ErrorFilters;
 using NetTopologySuite.Geometries;
 using Parser.Fit;
-using Queries;
 using Server.Configuration;
 using Server.Extensions;
 using Server.Services;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,8 +40,6 @@ builder.Services
     .AddMutationsTypes()
     .AddUnitTypes()
     .AddType<UploadType>()
-    .AddQueryType<Query>()
-    .AddMutationType<Mutation>()
     .RegisterDbContext<ApplicationDbContext>(DbContextKind.Pooled)
     .AddProjections()
     .AddFiltering()

@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Core;
+using HotChocolate.Authorization;
 using HotChocolate.Types;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,8 @@ using Parser.Fit;
 
 namespace Mutations;
 
-[ExtendObjectType<Mutation>]
+[Authorize]
+[MutationType]
 public class ActivityMutation
 {
     [Error<ActivityExistsException>]

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Queries;
 
 [Authorize]
+[QueryType]
 public class Query
 {
     [UsePaging(IncludeTotalCount = true)]
