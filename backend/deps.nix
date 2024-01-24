@@ -113,7 +113,7 @@
   (fetchNuGet { pname = "System.Threading.Channels"; version = "6.0.0"; sha256 = "1qbyi7yymqc56frqy7awvcqc1m7x3xrpx87a37dgb3mbrjg9hlcj"; })
   (fetchNuGet { pname = "System.Threading.Channels"; version = "8.0.0"; sha256 = "060ab3gxgmffzlfcj08hpmkyfkhyiky9brw35klbl32pnfhdi53k"; })
   (fetchNuGet { pname = "System.Threading.Tasks.Extensions"; version = "4.5.0"; sha256 = "05mpkdc7aigwadlcc9q3ash88hygkyz5pmkj360jj6c6ffhm91s8"; })
-  (fetchNuGet { pname = "UnitsNet"; version = "5.42.0"; sha256 = "1fhqj2rgh8hijqfbxr1y2pany2wcqg0vqzvvm7hwf8kwkywdg1hj"; })
-  (fetchNuGet { pname = "UnitsNet.NumberExtensions"; version = "5.42.0"; sha256 = "0a9qcnkgr80b3hs6fql9744mi693jxfzgr5qiib2a9h74f4sq3dh"; })
+  (fetchNuGet { pname = "UnitsNet"; version = "5.43.0"; sha256 = "0027sgjhjdldvil72fkrmf2rpgjwn69s9k11wk57vdjdzz1v00qn"; })
+  (fetchNuGet { pname = "UnitsNet.NumberExtensions"; version = "5.43.0"; sha256 = "1cnkgjfsmf4bphggn1x1n335yabxjiirbfg8c0fcz1351yrvmdz5"; })
   (fetchNuGet { pname = "Yarp.ReverseProxy"; version = "2.0.1"; sha256 = "1bgf4wxn4q64byxs0nwzafan8lj342ffma19gpsxj4yzarad5h8x"; })
 ]
