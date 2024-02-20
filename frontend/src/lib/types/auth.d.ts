@@ -8,7 +8,7 @@ declare module '@auth/core/types' {
 declare module '@auth/core/jwt' {
     interface JWT {
         access_token?: string | undefined;
-        expires_at: number | undefined;
+        expires_at: number;
     }
 }
 
