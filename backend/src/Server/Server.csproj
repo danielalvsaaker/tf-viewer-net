@@ -17,18 +17,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="HotChocolate.AspNetCore" Version="13.8.1" />
-        <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.8.1" />
-        <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.8.1" />
-        <PackageReference Include="HotChocolate.Data.Spatial" Version="13.8.1" />
+        <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.0" />
+        <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.0" />
+        <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.9.0" />
+        <PackageReference Include="HotChocolate.Data.Spatial" Version="13.9.0" />
         <PackageReference Include="IdentityModel" Version="6.2.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
-        <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" Version="2.1.7" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+        <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" Version="2.1.8" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
     </ItemGroup>
 
 </Project>
