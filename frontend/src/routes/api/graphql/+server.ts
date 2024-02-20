@@ -5,7 +5,7 @@ import { Readable } from 'node:stream';
 import type { ReadableStream } from 'node:stream/web';
 
 export const POST: RequestHandler = async (event) => {
-    const session = await event.locals.getSession();
+    const session = await event.locals.auth();
 
     // https://github.com/nodejs/undici/issues/1462
     const response = await request(`${env.BACKEND_URL}/graphql`, {

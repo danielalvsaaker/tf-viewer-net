@@ -21,7 +21,7 @@ const activityStore = graphql(`
 `);
 
 export const GET: RequestHandler = async (event) => {
-    const session = await event.locals.getSession();
+    const session = await event.locals.auth();
     if (!session) {
         return new Response(null, { status: 401 });
     }
