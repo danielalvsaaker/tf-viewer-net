@@ -9,7 +9,7 @@ in
     meta.mainProgram = "tf-viewer-web";
 
     src = ./.;
-    npmDepsHash = "sha256-ceGZwhpCw1hBSNCBJHagpFWyYxXqe72d1vRcVkVbZig=";
+    npmDepsHash = "sha256-6hdIBHlCuAZ8bhQw0tDKXQT39lO4T29uhOb9Vo5kMQE=";
 
     inherit nodejs;
 
@@ -30,7 +30,7 @@ in
       mkdir -p $out/lib
       mv build package.json node_modules $out/lib
 
-      makeWrapper "${nodejs}/bin/node" "$out/bin/tf-viewer-web" \
+      makeWrapper "${lib.getExe nodejs}" "$out/bin/tf-viewer-web" \
         --append-flags "$out/lib/build"
 
       runHook postInstall
